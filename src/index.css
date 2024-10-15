@@ -7,3 +7,39 @@
   margin: 0;
   padding: 0;
 }
+
+@font-face {
+  font-family: "Mallorca";
+  font-style: normal;
+  font-weight: normal;
+  src:
+    local("Mallorca"),
+    url("./fonts/Mallorca/Mallorca.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: normal;
+  src:
+    local("Poppins"),
+    url("./fonts/Poppins/poppins-latin-400-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  src:
+    local("Poppins"),
+    url("./fonts/Poppins/poppins-latin-600-normal.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local("Poppins"),
+    url("./fonts/Poppins/poppins-latin-700-normal.woff") format("woff");
+}

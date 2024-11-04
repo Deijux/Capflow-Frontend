@@ -7,7 +7,7 @@ interface MenuProps {
 function Menu({ menuStatus }: MenuProps) {
   return (
     <div
-      className="z-1 fixed top-14 h-dvh w-full max-w-44 bg-black pl-3 pt-3 text-white transition-all"
+      className="z-1 fixed top-14 flex h-dvh w-full max-w-44 flex-col justify-between bg-black pb-16 pl-3 pt-3 text-white transition-all"
       style={{ left: menuStatus ? 0 : "-176px" }}
     >
       <div className="flex flex-col gap-1">
@@ -35,6 +35,7 @@ function Menu({ menuStatus }: MenuProps) {
           </li>
         </ul>
       </div>
+      <Link to="/auth/login">Iniciar sesión</Link>
     </div>
   );
 }

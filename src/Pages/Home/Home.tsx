@@ -1,4 +1,4 @@
-import Card from "../../components/Card/Card";
+import { Card } from "../../components";
 import { Link } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
 

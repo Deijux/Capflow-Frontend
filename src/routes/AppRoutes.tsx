@@ -1,11 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "../Pages/Home/Home";
-import Header from "../components/Header/Header";
-import Sections from "../Pages/Sections/Sections";
-import CarShop from "../Pages/CarShop/CarShop";
-import InfoProduct from "../Pages/InfoProduct/InfoProduct";
-import Login from "../Pages/Login/Login";
-import Menu from "../components/Menu/Menu";
+import { Header, Menu } from "../components";
+import { Home, Sections, CarShop, InfoProduct, Login } from "../Pages";
 import { useState } from "react";
 
 const routes = [

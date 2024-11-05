@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import Card from "../../components/Card/Card";
+import { Card } from "../../components";
 
 function Sections() {
   return (

@@ -12,6 +12,7 @@ function Login() {
   ): Promise<void> => {
     e.preventDefault();
     const role = await loginService({ username, password });
+    localStorage.setItem("role", role);
     if (role === "ROLE_ADMIN") return navigate("/admin/dashboard");
   };
 

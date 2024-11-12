@@ -1,5 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
+import { useGlobalContext } from "../context/Global.context";
 
 interface PropsProtectedRoute {
   allowedRoles: string[];
@@ -7,7 +8,7 @@ interface PropsProtectedRoute {
 }
 
 const ProtectedRoute = ({ allowedRoles, children }: PropsProtectedRoute) => {
-  const role = localStorage.getItem("role");
+  const { role } = useGlobalContext();
 
   if (!role) {
     return <Navigate to="/auth/login" replace />;

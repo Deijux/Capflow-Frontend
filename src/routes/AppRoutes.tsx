@@ -4,6 +4,7 @@ import { Home, Sections, CarShop, InfoProduct, Login } from "../Pages";
 import { AdminRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
 import { useState } from "react";
+import { GlobalProvider } from "../context/Global.provider";
 
 const routes = [
   { path: "/section", element: <Sections />, allowedRoles: [] },
@@ -21,7 +22,7 @@ function AppRoutes() {
   };
 
   return (
-    <>
+    <GlobalProvider>
       <BrowserRouter>
         <Header handleMenuStatus={handleChangeMenuStatus} />
         <Routes>
@@ -44,7 +45,7 @@ function AppRoutes() {
         </Routes>
         <Menu menuStatus={menuStatus} />
       </BrowserRouter>
-    </>
+    </GlobalProvider>
   );
 }
 

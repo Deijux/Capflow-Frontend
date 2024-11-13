@@ -5,13 +5,22 @@ import { AdminRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
 import { useState } from "react";
 import { GlobalProvider } from "../context/Global.provider";
+import { UserRole } from "../types";
 
 const routes = [
-  { path: "/section", element: <Sections />, allowedRoles: [] },
-  { path: "/carrito", element: <CarShop />, allowedRoles: [] },
-  { path: "/producto", element: <InfoProduct />, allowedRoles: [] },
-  { path: "/auth/login", element: <Login />, allowedRoles: [] },
-  { path: "/admin/*", element: <AdminRoutes />, allowedRoles: ["ROLE_ADMIN"] },
+  { path: "/section", element: <Sections />, allowedRoles: [] as UserRole[] },
+  { path: "/carrito", element: <CarShop />, allowedRoles: [] as UserRole[] },
+  {
+    path: "/producto",
+    element: <InfoProduct />,
+    allowedRoles: [] as UserRole[],
+  },
+  { path: "/auth/login", element: <Login />, allowedRoles: [] as UserRole[] },
+  {
+    path: "/admin/*",
+    element: <AdminRoutes />,
+    allowedRoles: ["ROLE_ADMIN"] as UserRole[],
+  },
 ];
 
 function AppRoutes() {

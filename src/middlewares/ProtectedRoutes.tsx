@@ -1,9 +1,10 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { useGlobalContext } from "../context/Global.context";
+import { UserRole } from "../types";
 
 interface PropsProtectedRoute {
-  allowedRoles: string[];
+  allowedRoles: UserRole[];
   children: React.ReactNode;
 }
 

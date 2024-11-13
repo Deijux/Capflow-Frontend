@@ -1,8 +1,9 @@
 import { createContext, useContext } from "react";
+import { UserRole } from "../types";
 
 interface GlobalContextType {
-  role: string | null;
-  setRole: React.Dispatch<React.SetStateAction<string>>;
+  role: UserRole | null;
+  setRole: React.Dispatch<React.SetStateAction<UserRole>>;
 }
 
 export const GlobalContext = createContext<GlobalContextType>({

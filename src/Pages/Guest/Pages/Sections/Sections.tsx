@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
-import { Card } from "../../components";
+import { Card } from "../../../../components";
 
-function Sections() {
+export function Sections() {
   return (
     <section className="flex justify-center p-3 font-Poppins">
       <div className="w-full max-w-4xl">
@@ -23,5 +23,3 @@ function Sections() {
     </section>
   );
 }
-
-export default Sections;

@@ -1,8 +1,8 @@
-import { Card } from "../../components";
+import { Card } from "../../../../components";
 import { Link } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
 
-function Home() {
+export function Home() {
   return (
     <main className="flex h-dvh w-full justify-center px-3">
       <section className="w-full max-w-4xl">
@@ -52,5 +52,3 @@ function Home() {
     </main>
   );
 }
-
-export default Home;

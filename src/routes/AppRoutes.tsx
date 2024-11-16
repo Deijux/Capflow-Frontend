@@ -1,21 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Menu } from "../components";
-import { Home, Sections, CarShop, InfoProduct, Login } from "../Pages";
-import { AdminRoutes } from "../Pages";
+import { Home } from "../Pages/Guest/Pages";
+import { AdminRoutes, GuestRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
 import { useState } from "react";
 import { GlobalProvider } from "../context/Global.provider";
 import { UserRole } from "../types";
 
 const routes = [
-  { path: "/section", element: <Sections />, allowedRoles: [] as UserRole[] },
-  { path: "/carrito", element: <CarShop />, allowedRoles: [] as UserRole[] },
   {
-    path: "/producto",
-    element: <InfoProduct />,
+    path: "/*",
+    element: <GuestRoutes />,
     allowedRoles: [] as UserRole[],
   },
-  { path: "/auth/login", element: <Login />, allowedRoles: [] as UserRole[] },
   {
     path: "/admin/*",
     element: <AdminRoutes />,

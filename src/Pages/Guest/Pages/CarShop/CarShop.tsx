@@ -1,6 +1,6 @@
-import img from "../../assets/GOORIN-BROS-PANTHER.webp";
+import img from "../../../../assets/GOORIN-BROS-PANTHER.webp";
 
-function CarShop() {
+export function CarShop() {
   return (
     <section className="flex w-full flex-col items-center gap-3 p-3 font-Poppins">
       <div className="flex w-full max-w-md flex-col gap-3">
@@ -59,5 +59,3 @@ function CarShop() {
     </section>
   );
 }
-
-export default CarShop;

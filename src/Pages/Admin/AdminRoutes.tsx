@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 const routes = [];
 
-function AdminRoutes() {
+export function AdminRoutes() {
   return (
     <Routes>
       {routes.map(({ path, element }) => (
@@ -11,5 +11,3 @@ function AdminRoutes() {
     </Routes>
   );
 }
-
-export default AdminRoutes;

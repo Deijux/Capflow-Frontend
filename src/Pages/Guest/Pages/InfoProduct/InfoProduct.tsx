@@ -1,6 +1,6 @@
-import img from "../../assets/GOORIN-BROS-PANTHER.webp";
+import img from "../../../../assets/GOORIN-BROS-PANTHER.webp";
 
-function InfoProduct() {
+export function InfoProduct() {
   return (
     <section className="flex flex-col items-center py-5 font-Poppins">
       <div className="w-full max-w-xl lg:max-w-full">
@@ -72,5 +72,3 @@ function InfoProduct() {
     </section>
   );
 }
-
-export default InfoProduct;

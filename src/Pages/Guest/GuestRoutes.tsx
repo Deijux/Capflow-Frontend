@@ -5,10 +5,14 @@ import { GlobalProvider } from "../../context/Global.provider";
 import { UserRole } from "../../types";
 
 const routes = [
-  { path: "/section", element: <Sections />, allowedRoles: [] as UserRole[] },
+  {
+    path: "/section/:brand",
+    element: <Sections />,
+    allowedRoles: [] as UserRole[],
+  },
   { path: "/carrito", element: <CarShop />, allowedRoles: [] as UserRole[] },
   {
-    path: "/producto",
+    path: "/producto/:id",
     element: <InfoProduct />,
     allowedRoles: [] as UserRole[],
   },

@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Menu } from "../components";
-import { Home } from "../Pages/Guest/Pages";
 import { AdminRoutes, GuestRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
 import { useState } from "react";
@@ -32,7 +31,6 @@ function AppRoutes() {
       <BrowserRouter>
         <Header handleMenuStatus={handleChangeMenuStatus} />
         <Routes>
-          <Route index element={<Home />} />
           {routes.map(({ path, element, allowedRoles }) =>
             allowedRoles.length > 0 ? (
               <Route

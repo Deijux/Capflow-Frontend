@@ -1,12 +1,20 @@
-interface details {
+export interface ProductDetail {
   size: string;
   stock: number;
 }
 
-export interface Products {
+export interface Product {
+  _id: string;
   name: string;
   description: string;
-  brand: string;
   price: number;
-  details: details[];
+  brand: string;
+  imagesUrl: string[];
+  details: ProductDetail[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ProductsByBrand {
+  [brand: string]: Product[];
 }

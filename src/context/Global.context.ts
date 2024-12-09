@@ -1,11 +1,11 @@
 import { createContext, useContext } from "react";
-import { UserRole, Products } from "../types";
+import { UserRole, ProductsByBrand } from "../types";
 
 interface GlobalContextType {
   role: UserRole | null;
   setRole: React.Dispatch<React.SetStateAction<UserRole>>;
-  products: Products | null;
-  setProducts: React.Dispatch<React.SetStateAction<Products | null>>;
+  products: ProductsByBrand | null;
+  setProducts: React.Dispatch<React.SetStateAction<ProductsByBrand | null>>;
 }
 
 export const GlobalContext = createContext<GlobalContextType>({

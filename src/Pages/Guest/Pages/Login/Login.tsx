@@ -1,19 +1,37 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import loginService from "../../../../services/LogIn";
 
 export function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const usernameRef = useRef<HTMLInputElement | null>(null);
+  const passwordRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
 
   const onSubmit = async (
     e: React.ChangeEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
-    const role = await loginService({ username, password });
-    localStorage.setItem("role", role);
-    if (role === "ROLE_ADMIN") return navigate("/admin/dashboard");
+    if (!usernameRef.current || !passwordRef.current) {
+      console.error("Los campos de usuario y contraseña no están definidos.");
+      return;
+    }
+
+    if (usernameRef.current.value === "" || passwordRef.current.value === "") {
+      console.error("Los campos no pueden estar vacíos.");
+      return;
+    }
+
+    try {
+      const role = await loginService({
+        username: usernameRef.current.value,
+        password: passwordRef.current.value,
+      });
+      localStorage.setItem("role", role);
+
+      if (role === "ROLE_ADMIN") navigate("/admin/dashboard");
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error);
+    }
   };
 
   return (
@@ -26,18 +44,18 @@ export function Login() {
               className="w-64 rounded border border-black px-2 py-1"
               type="text"
               id="username"
+              ref={usernameRef}
               placeholder="Ingrese su nombre de usuario"
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="username">Contraseña</label>
+            <label htmlFor="password">Contraseña</label>
             <input
               className="w-64 rounded border border-black px-2 py-1"
               type="password"
               id="password"
+              ref={passwordRef}
               placeholder="Ingrese su contraseña"
-              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <button className="rounded bg-black py-1 text-white" type="submit">

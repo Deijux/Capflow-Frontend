@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProductById } from "../../../../services";
 import { Product } from "../../../../types";
+import { Return } from "../../../../components/Return/Return";
 
 export function InfoProduct() {
   const { id } = useParams();
@@ -35,7 +36,10 @@ export function InfoProduct() {
   };
 
   return (
-    <section className="flex flex-col items-center py-5 font-Poppins">
+    <section className="flex flex-col items-center py-3 font-Poppins">
+      <div className="w-full max-w-5xl pb-2">
+        <Return />
+      </div>
       <div className="w-full max-w-xl lg:max-w-full">
         <div className="flex flex-col justify-center gap-4 px-6 lg:flex-row lg:gap-5 xl:gap-14">
           <img

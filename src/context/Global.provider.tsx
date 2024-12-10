@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { GlobalContext } from "./Global.context";
-import { UserRole, Products } from "../types";
+import { UserRole, ProductsByBrand } from "../types";
 import { getProducts } from "../services";
 
 const validateUserRole = (role: string): UserRole => {
@@ -20,12 +20,12 @@ interface GlobalProps {
 
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
-  const [products, setProducts] = useState<Products | null>(null);
+  const [products, setProducts] = useState<ProductsByBrand | null>(null);
 
   useEffect(() => {
     try {
       const fetchProducts = async () => {
-        const products: Promise<Products> = getProducts();
+        const products: Promise<ProductsByBrand> = getProducts();
         setProducts(await products);
       };
       fetchProducts();

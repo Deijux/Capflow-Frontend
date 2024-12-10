@@ -8,13 +8,13 @@ export function InfoProduct() {
   const [product, setProduct] = useState<Product>();
   const [quantity, setQuantity] = useState(1);
   const [quantityProduct, setQuantityProduct] = useState(0);
+  const [size, setSize] = useState("");
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const productData = await getProductById(id);
         setProduct(productData);
-        console.log(productData.details);
       } catch (error) {
         console.error("Error al cargar el producto:", error);
       }
@@ -58,8 +58,15 @@ export function InfoProduct() {
                 {product.details.map((detail) => (
                   <li
                     key={detail.size}
-                    onClick={() => setQuantityProduct(detail.stock)}
+                    onClick={() => {
+                      setQuantityProduct(detail.stock);
+                      setSize(detail.size);
+                    }}
                     className="w-full max-w-[72px] cursor-pointer rounded-lg border border-black py-2 text-center"
+                    style={{
+                      backgroundColor: size == detail.size ? "black" : "white",
+                      color: size == detail.size ? "white" : "black",
+                    }}
                   >
                     {detail.size}
                   </li>

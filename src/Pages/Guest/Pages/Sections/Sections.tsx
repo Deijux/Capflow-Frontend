@@ -27,13 +27,13 @@ export function Sections() {
 
   return (
     <section className="flex justify-center p-3 font-Poppins">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-5xl">
         <Link to="/" className="inline-flex items-center gap-1">
           <BiArrowBack />
           Regresar al inicio
         </Link>
         <div>
-          <h2 className="text-2xl font-semibold">GOORIN BROS</h2>
+          <h2 className="text-3xl font-semibold">GOORIN BROS</h2>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             {products.map((product: Product) => (
               <Card

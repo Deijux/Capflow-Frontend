@@ -1,11 +1,12 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import loginService from "../../../../services/LogIn";
+import { useLogin } from "../../../../hooks/useAuth";
 
 export function Login() {
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
+  const login = useLogin();
 
   const onSubmit = async (
     e: React.ChangeEvent<HTMLFormElement>,
@@ -22,11 +23,10 @@ export function Login() {
     }
 
     try {
-      const role = await loginService({
+      const role = await login.mutateAsync({
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       });
-      localStorage.setItem("role", role);
 
       if (role === "ROLE_ADMIN") navigate("/admin/dashboard");
     } catch (error) {

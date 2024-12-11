@@ -1,28 +1,15 @@
 import { Card } from "../../../../components";
-import { getProductByBrand } from "../../../../services";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Product } from "../../../../types";
+import { useProductsByBrand } from "../../../../hooks/useProducts";
 import { Return } from "../../../../components/Return/Return";
 
 export function Sections() {
   const { brand } = useParams();
-  const [products, setProducts] = useState<Product[]>([]);
+  const { data: products, isLoading } = useProductsByBrand(brand);
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const productsData = await getProductByBrand(brand);
-        setProducts(productsData);
-      } catch (error) {
-        console.error("Error al cargar el producto:", error);
-      }
-    };
-
-    fetchProduct();
-  }, [brand]);
-
-  if (!products) return <p>Cargando...</p>;
+  if (isLoading) return <p>Cargando...</p>;
+  if (!products) return <p>No hay productos disponibles</p>;
 
   return (
     <section className="flex justify-center p-3 font-Poppins">

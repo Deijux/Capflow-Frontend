@@ -1,7 +1,7 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { GlobalContext } from "./Global.context";
-import { UserRole, ProductsByBrand } from "../types";
-import { getProducts } from "../services";
+import { UserRole } from "../types";
+import { useProducts } from "../hooks/useProducts";
 
 interface GlobalProps {
   children: ReactNode;
@@ -20,26 +20,17 @@ const EmptyGlobalState: UserRole = validateUserRole(
 
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
-  const [products, setProducts] = useState<ProductsByBrand | null>(null);
-  const [brands, setBrands] = useState<string[] | null>(null);
-
-  useEffect(() => {
-    try {
-      const fetchProducts = async () => {
-        const products: Promise<ProductsByBrand> = getProducts();
-        setProducts(await products);
-        const extractedBrands = Object.keys(await products);
-        setBrands(extractedBrands);
-      };
-      fetchProducts();
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const { data: products } = useProducts();
+  const brands = products ? Object.keys(products) : null;
 
   return (
     <GlobalContext.Provider
-      value={{ role, setRole, products, setProducts, brands }}
+      value={{
+        role,
+        setRole,
+        products: products || null,
+        brands,
+      }}
     >
       {children}
     </GlobalContext.Provider>

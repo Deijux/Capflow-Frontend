@@ -1,30 +1,17 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getProductById } from "../../../../services";
-import { Product } from "../../../../types";
+import { useState } from "react";
 import { Return } from "../../../../components/Return/Return";
+import { useProduct } from "../../../../hooks/useProducts";
 
 export function InfoProduct() {
   const { id } = useParams();
-  const [product, setProduct] = useState<Product>();
+  const { data: product, isLoading } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
   const [quantityProduct, setQuantityProduct] = useState(0);
   const [size, setSize] = useState("");
 
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const productData = await getProductById(id);
-        setProduct(productData);
-      } catch (error) {
-        console.error("Error al cargar el producto:", error);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
-
-  if (!product) return <p>Cargando...</p>;
+  if (isLoading) return <p>Cargando...</p>;
+  if (!product) return <p>Producto no encontrado</p>;
 
   const handleQuantityChange = (operation: string) => {
     setQuantity(

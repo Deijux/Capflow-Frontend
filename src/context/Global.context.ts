@@ -5,7 +5,6 @@ interface GlobalContextType {
   role: UserRole | null;
   setRole: React.Dispatch<React.SetStateAction<UserRole>>;
   products: ProductsByBrand | null;
-  setProducts: React.Dispatch<React.SetStateAction<ProductsByBrand | null>>;
   brands: string[] | null;
 }
 
@@ -13,7 +12,6 @@ export const GlobalContext = createContext<GlobalContextType>({
   role: null,
   setRole: () => {},
   products: null,
-  setProducts: () => {},
   brands: null,
 });
 

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Return } from "../../../../components/Return/Return";
-import { useProduct } from "../../../../hooks/useProducts";
+import { useProduct } from "../../../../hooks";
 
 export function InfoProduct() {
   const { id } = useParams();

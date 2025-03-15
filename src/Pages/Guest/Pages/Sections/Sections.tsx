@@ -1,7 +1,7 @@
 import { Card } from "../../../../components";
 import { useParams } from "react-router-dom";
 import { Product } from "../../../../types";
-import { useProductsByBrand } from "../../../../hooks/useProducts";
+import { useProductsByBrand } from "../../../../hooks";
 import { Return } from "../../../../components/Return/Return";
 
 export function Sections() {

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../../../hooks/useAuth";
+import { useLogin } from "../../../../hooks";
 
 export function Login() {
   const usernameRef = useRef<HTMLInputElement | null>(null);

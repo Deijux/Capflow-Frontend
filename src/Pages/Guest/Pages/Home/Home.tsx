@@ -5,16 +5,16 @@ import { useGlobalContext } from "../../../../context/Global.context";
 import { Product } from "../../../../types";
 
 export function Home() {
-  const { products } = useGlobalContext();
+  const { productsListed } = useGlobalContext();
 
-  if (!products) {
+  if (!productsListed) {
     return <div>Cargando productos...</div>;
   }
 
   return (
     <main className="flex h-dvh w-full justify-center px-3">
       <section className="w-full max-w-5xl">
-        {Object.entries(products).map(([brand, brandProducts]) => (
+        {Object.entries(productsListed).map(([brand, brandProducts]) => (
           <div className="mt-2" key={brand}>
             <Link
               to={`/section/${brand}`}

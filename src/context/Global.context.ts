@@ -4,14 +4,14 @@ import { UserRole, ProductsByBrand } from "../types";
 interface GlobalContextType {
   role: UserRole | null;
   setRole: React.Dispatch<React.SetStateAction<UserRole>>;
-  products: ProductsByBrand | null;
+  productsListed: ProductsByBrand | null;
   brands: string[] | null;
 }
 
 export const GlobalContext = createContext<GlobalContextType>({
   role: null,
   setRole: () => {},
-  products: null,
+  productsListed: null,
   brands: null,
 });
 

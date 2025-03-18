@@ -1,5 +1,6 @@
 import { createContext, useContext } from "react";
 import { UserRole, ProductsByBrand, Product } from "../types";
+import { UseMutateFunction } from "@tanstack/react-query";
 
 interface GlobalContextType {
   role: UserRole | null;
@@ -7,6 +8,7 @@ interface GlobalContextType {
   productsListed: ProductsByBrand | null;
   allProducts: Product[] | null;
   brands: string[] | null;
+  deleteProduct: UseMutateFunction<void, Error, string, unknown>;
 }
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -15,6 +17,7 @@ export const GlobalContext = createContext<GlobalContextType>({
   productsListed: null,
   allProducts: null,
   brands: null,
+  deleteProduct: () => {},
 });
 
 export const useGlobalContext = () => {

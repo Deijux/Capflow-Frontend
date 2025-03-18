@@ -10,7 +10,7 @@ interface SortConfig {
 }
 
 export function Dashboard() {
-  const { allProducts } = useGlobalContext();
+  const { allProducts, deleteProduct } = useGlobalContext();
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "name",
@@ -50,9 +50,16 @@ export function Dashboard() {
     return sortConfig.direction === "ascending" ? "↑" : "↓";
   };
 
-  if (!allProducts) {
-    return <div>Cargando productos...</div>;
-  }
+  const handleDeleteProduct = (id: string) => {
+    deleteProduct(id, {
+      onSuccess: () => {
+        alert("Producto eliminado correctamente");
+      },
+      onError: () => {
+        alert("Error al eliminar el producto");
+      },
+    });
+  };
 
   return (
     <section className="flex flex-col items-center gap-4 pt-2">
@@ -92,31 +99,37 @@ export function Dashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {sortedProducts.map((product) => (
-                <tr key={product._id} className="hover:bg-gray-50">
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900">
-                      {product.name}
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div className="text-sm text-gray-500">{product.brand}</div>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4">
-                    <div className="text-sm text-gray-900">
-                      ${product.price.toFixed(2)}
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                    <button className="mr-3 text-indigo-600 hover:text-indigo-900">
-                      Editar
-                    </button>
-                    <button className="text-red-600 hover:text-red-900">
-                      Eliminar
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {allProducts &&
+                sortedProducts.map((product) => (
+                  <tr key={product._id} className="hover:bg-gray-50">
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm font-medium text-gray-900">
+                        {product.name}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm text-gray-500">
+                        {product.brand}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4">
+                      <div className="text-sm text-gray-900">
+                        ${product.price.toFixed(2)}
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
+                      <button className="mr-3 text-indigo-600 hover:text-indigo-900">
+                        Editar
+                      </button>
+                      <button
+                        className="text-red-600 hover:text-red-900"
+                        onClick={() => handleDeleteProduct(product._id)}
+                      >
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

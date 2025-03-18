@@ -1,6 +1,12 @@
 import { Routes, Route } from "react-router-dom";
+import { Dashboard } from "./Pages";
 
-const routes = [];
+const routes = [
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
+];
 
 export function AdminRoutes() {
   return (

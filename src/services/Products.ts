@@ -1,7 +1,7 @@
 import { Product, ProductsByBrand } from "../types";
 import axiosInstance from "./AxiosInstancie";
 
-export const getProducts = async (): Promise<Product> => {
+export const getProducts = async (): Promise<Product[]> => {
   try {
     const response = await axiosInstance.get("/api/products");
     return response.data;

@@ -1,15 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  getProducts,
+  getProductsGuest,
+  getProductsAdmin,
   getProductsListed,
   getProductById,
   getProductByBrand,
+  deleteProduct,
 } from "../services";
 
 export const useProducts = () => {
   return useQuery({
     queryKey: ["products"],
-    queryFn: getProducts,
+    queryFn: getProductsGuest,
+  });
+};
+
+export const useProductsAdmin = () => {
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: getProductsAdmin,
   });
 };
 
@@ -33,5 +42,16 @@ export const useProductsByBrand = (brand?: string) => {
     queryKey: ["products", brand],
     queryFn: () => getProductByBrand(brand),
     enabled: !!brand,
+  });
+};
+
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
   });
 };

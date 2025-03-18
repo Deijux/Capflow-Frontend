@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { GlobalContext } from "./Global.context";
 import { UserRole } from "../types";
-import { useProductsListed } from "../hooks/useProducts";
+import { useProducts, useProductsListed } from "../hooks/useProducts";
 
 interface GlobalProps {
   children: ReactNode;
@@ -21,6 +21,7 @@ const EmptyGlobalState: UserRole = validateUserRole(
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
   const { data: productsListed } = useProductsListed();
+  const { data: allProducts } = useProducts();
   const brands = productsListed ? Object.keys(productsListed) : null;
 
   return (
@@ -29,6 +30,7 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
         role,
         setRole,
         productsListed: productsListed || null,
+        allProducts: allProducts || null,
         brands,
       }}
     >

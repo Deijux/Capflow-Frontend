@@ -1,11 +1,10 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../../../hooks";
 
 export function Login() {
   const usernameRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const navigate = useNavigate();
+
   const login = useLogin();
 
   const onSubmit = async (
@@ -28,7 +27,7 @@ export function Login() {
         password: passwordRef.current.value,
       });
 
-      if (role === "ROLE_ADMIN") navigate("/admin/dashboard");
+      if (role === "ROLE_ADMIN") window.location.href = "/admin/dashboard";
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
     }

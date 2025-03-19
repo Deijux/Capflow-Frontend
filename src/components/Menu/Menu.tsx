@@ -1,12 +1,19 @@
 import { useGlobalContext } from "../../context/Global.context";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface MenuProps {
   menuStatus: boolean;
 }
 
 function Menu({ menuStatus }: MenuProps) {
-  const { brands } = useGlobalContext();
+  const navigate = useNavigate();
+  const { brands, handleSetRole, role } = useGlobalContext();
+
+  const handleLogOut = () => {
+    navigate("/");
+    handleSetRole("ROLE_GUEST");
+  };
 
   return (
     <div
@@ -28,7 +35,11 @@ function Menu({ menuStatus }: MenuProps) {
           ))}
         </ul>
       </div>
-      <Link to="/auth/login">Iniciar sesión</Link>
+      {role !== "ROLE_GUEST" && role !== null ? (
+        <button onClick={handleLogOut}>Cerrar sesión</button>
+      ) : (
+        <Link to="/auth/login">Iniciar sesión</Link>
+      )}
     </div>
   );
 }

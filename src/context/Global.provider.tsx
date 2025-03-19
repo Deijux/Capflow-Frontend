@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { GlobalContext } from "./Global.context";
 import { UserRole } from "../types";
 import {
@@ -29,11 +29,23 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
   const brands = productsListed ? Object.keys(productsListed) : null;
   const { mutate: deleteProduct } = useDeleteProduct();
 
+  useEffect(() => {
+    const storedRole = localStorage.getItem("role") as UserRole | null;
+    if (storedRole) {
+      setRole(storedRole);
+    }
+  }, []);
+
+  const handleSetRole = (role: UserRole) => {
+    localStorage.setItem("role", role);
+    setRole(role);
+  };
+
   return (
     <GlobalContext.Provider
       value={{
         role,
-        setRole,
+        handleSetRole,
         productsListed: productsListed || null,
         allProducts: allProducts || null,
         brands,

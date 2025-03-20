@@ -1,16 +1,21 @@
 import Style from "./Header.module.css";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { useGlobalContext } from "../../context/Global.context";
+import { useEffect, useState } from "react";
 
-interface HeaderProps {
-  handleMenuStatus: () => void;
-}
-
-function Header({ handleMenuStatus }: HeaderProps) {
-  const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
+function Header() {
+  const { menuStatus, handleChangeMenuStatus } = useGlobalContext();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
-    handleMenuStatus();
+    setIsChecked(event.target.checked);
+    handleChangeMenuStatus();
   };
+
+  useEffect(() => {
+    setIsChecked(menuStatus);
+  }, [menuStatus]);
 
   return (
     <header className="w-full bg-black p-3">
@@ -20,11 +25,12 @@ function Header({ handleMenuStatus }: HeaderProps) {
             htmlFor="burger"
             className={`${Style.burger} relative block h-6 w-8 cursor-pointer bg-transparent`}
           >
-            <input  
+            <input
               id="burger"
               type="checkbox"
               className="hidden"
-              onClick={handleClick}
+              checked={isChecked}
+              onChange={handleClick}
             />
             <span className="absolute left-0 block h-1 w-full rotate-0 rounded-lg bg-white opacity-100 transition"></span>
             <span className="absolute left-0 block h-1 w-full rotate-0 rounded-lg bg-white opacity-100 transition"></span>

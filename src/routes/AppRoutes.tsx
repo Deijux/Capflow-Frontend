@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Menu } from "../components";
 import { AdminRoutes, GuestRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
-import { useState } from "react";
 import { GlobalProvider } from "../context/Global.provider";
 import { UserRole } from "../types";
 
@@ -20,16 +19,10 @@ const routes = [
 ];
 
 function AppRoutes() {
-  const [menuStatus, setMenuStatus] = useState<boolean>(false);
-
-  const handleChangeMenuStatus = () => {
-    setMenuStatus((prev) => !prev);
-  };
-
   return (
     <GlobalProvider>
       <BrowserRouter>
-        <Header handleMenuStatus={handleChangeMenuStatus} />
+        <Header />
         <Routes>
           {routes.map(({ path, element, allowedRoles }) =>
             allowedRoles.length > 0 ? (
@@ -47,7 +40,7 @@ function AppRoutes() {
             ),
           )}
         </Routes>
-        <Menu menuStatus={menuStatus} />
+        <Menu />
       </BrowserRouter>
     </GlobalProvider>
   );

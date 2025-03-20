@@ -24,6 +24,7 @@ const EmptyGlobalState: UserRole = validateUserRole(
 
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
+  const [menuStatus, setMenuStatus] = useState<boolean>(false);
   const { data: productsListed } = useProductsListed();
   const { data: allProducts } = useProductsAdmin();
   const brands = productsListed ? Object.keys(productsListed) : null;
@@ -41,11 +42,17 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     setRole(role);
   };
 
+  const handleChangeMenuStatus = () => {
+    setMenuStatus((prev) => !prev);
+  };
+
   return (
     <GlobalContext.Provider
       value={{
         role,
         handleSetRole,
+        menuStatus,
+        handleChangeMenuStatus,
         productsListed: productsListed || null,
         allProducts: allProducts || null,
         brands,

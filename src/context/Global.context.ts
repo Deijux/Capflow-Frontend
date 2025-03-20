@@ -5,6 +5,8 @@ import { UseMutateFunction } from "@tanstack/react-query";
 interface GlobalContextType {
   role: UserRole | null;
   handleSetRole(role: UserRole): void;
+  menuStatus: boolean;
+  handleChangeMenuStatus(): void;
   productsListed: ProductsByBrand | null;
   allProducts: Product[] | null;
   brands: string[] | null;
@@ -14,6 +16,8 @@ interface GlobalContextType {
 export const GlobalContext = createContext<GlobalContextType>({
   role: null,
   handleSetRole: () => {},
+  menuStatus: false,
+  handleChangeMenuStatus: () => {},
   productsListed: null,
   allProducts: null,
   brands: null,

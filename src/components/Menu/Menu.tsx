@@ -2,13 +2,11 @@ import { useGlobalContext } from "../../context/Global.context";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-interface MenuProps {
-  menuStatus: boolean;
-}
-
-function Menu({ menuStatus }: MenuProps) {
+function Menu() {
+  const { menuStatus } = useGlobalContext();
   const navigate = useNavigate();
-  const { brands, handleSetRole, role } = useGlobalContext();
+  const { brands, handleSetRole, role, handleChangeMenuStatus } =
+    useGlobalContext();
 
   const handleLogOut = () => {
     navigate("/");
@@ -28,6 +26,7 @@ function Menu({ menuStatus }: MenuProps) {
               <Link
                 to={`/section/${brand}`}
                 className="transition-all hover:ml-5"
+                onClick={handleChangeMenuStatus}
               >
                 {brand}
               </Link>
@@ -36,9 +35,19 @@ function Menu({ menuStatus }: MenuProps) {
         </ul>
       </div>
       {role !== "ROLE_GUEST" && role !== null ? (
-        <button onClick={handleLogOut}>Cerrar sesión</button>
+        <button
+          className="inline-flex"
+          onClick={() => {
+            handleLogOut();
+            handleChangeMenuStatus();
+          }}
+        >
+          Cerrar sesión
+        </button>
       ) : (
-        <Link to="/auth/login">Iniciar sesión</Link>
+        <Link to="/auth/login" onClick={handleChangeMenuStatus}>
+          Iniciar sesión
+        </Link>
       )}
     </div>
   );

@@ -23,13 +23,15 @@ function Menu() {
         <ul>
           {brands?.map((brand) => (
             <li key={brand}>
-              <Link
-                to={`/section/${brand}`}
-                className="transition-all hover:ml-5"
-                onClick={handleChangeMenuStatus}
-              >
-                {brand}
-              </Link>
+              <div className="inline-block cursor-pointer [&>*:nth-child(odd)]:hover:ml-5">
+                <Link
+                  to={`/section/${brand}`}
+                  className="transition-all"
+                  onClick={handleChangeMenuStatus}
+                >
+                  {brand}
+                </Link>
+              </div>
             </li>
           ))}
         </ul>

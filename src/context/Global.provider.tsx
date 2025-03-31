@@ -3,8 +3,9 @@ import { GlobalContext } from "./Global.context";
 import { UserRole } from "../types";
 import {
   useProductsListed,
-  useDeleteProduct,
   useProductsAdmin,
+  useCreateProduct,
+  useDeleteProduct,
 } from "../hooks/useProducts";
 
 interface GlobalProps {
@@ -25,9 +26,11 @@ const EmptyGlobalState: UserRole = validateUserRole(
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
   const [menuStatus, setMenuStatus] = useState<boolean>(false);
+  const [modalCreateStatus, setModalStatus] = useState<boolean>(false);
   const { data: productsListed } = useProductsListed();
   const { data: allProducts } = useProductsAdmin();
   const brands = productsListed ? Object.keys(productsListed) : null;
+  const { mutate: createProduct } = useCreateProduct();
   const { mutate: deleteProduct } = useDeleteProduct();
 
   useEffect(() => {
@@ -46,6 +49,10 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     setMenuStatus((prev) => !prev);
   };
 
+  const handleModalCreate = () => {
+    setModalStatus((prev) => !prev);
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -53,10 +60,13 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
         handleSetRole,
         menuStatus,
         handleChangeMenuStatus,
+        modalCreateStatus,
+        handleModalCreate,
         productsListed: productsListed || null,
         allProducts: allProducts || null,
         brands,
         deleteProduct,
+        createProduct,
       }}
     >
       {children}

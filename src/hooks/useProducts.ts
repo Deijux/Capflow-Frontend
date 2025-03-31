@@ -5,8 +5,10 @@ import {
   getProductsListed,
   getProductById,
   getProductByBrand,
+  createProduct,
   deleteProduct,
 } from "../services";
+import { SizeStock } from "../types";
 
 export const useProducts = () => {
   return useQuery({
@@ -42,6 +44,35 @@ export const useProductsByBrand = (brand?: string) => {
     queryKey: ["products", brand],
     queryFn: () => getProductByBrand(brand),
     enabled: !!brand,
+  });
+};
+
+export const useCreateProduct = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: {
+      productData: {
+        name: string;
+        description: string;
+        price: number;
+        brand: string;
+        details: SizeStock[];
+      };
+      images: File[];
+    }) => {
+      return createProduct({
+        productData: data.productData,
+        images: data.images,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["productsListed"] });
+    },
+    onError: (error: Error) => {
+      console.error(error);
+    },
   });
 };
 

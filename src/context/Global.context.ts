@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { UserRole, ProductsByBrand, Product } from "../types";
+import { UserRole, ProductsByBrand, Product, SizeStock } from "../types";
 import { UseMutateFunction } from "@tanstack/react-query";
 
 interface GlobalContextType {
@@ -7,9 +7,26 @@ interface GlobalContextType {
   handleSetRole(role: UserRole): void;
   menuStatus: boolean;
   handleChangeMenuStatus(): void;
+  modalCreateStatus: boolean;
+  handleModalCreate(): void;
   productsListed: ProductsByBrand | null;
   allProducts: Product[] | null;
   brands: string[] | null;
+  createProduct: UseMutateFunction<
+    Product,
+    Error,
+    {
+      productData: {
+        name: string;
+        description: string;
+        price: number;
+        brand: string;
+        details: SizeStock[];
+      };
+      images: File[];
+    },
+    unknown
+  >;
   deleteProduct: UseMutateFunction<void, Error, string, unknown>;
 }
 
@@ -18,9 +35,12 @@ export const GlobalContext = createContext<GlobalContextType>({
   handleSetRole: () => {},
   menuStatus: false,
   handleChangeMenuStatus: () => {},
+  modalCreateStatus: false,
+  handleModalCreate: () => {},
   productsListed: null,
   allProducts: null,
   brands: null,
+  createProduct: () => {},
   deleteProduct: () => {},
 });
 

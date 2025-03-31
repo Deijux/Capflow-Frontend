@@ -10,7 +10,7 @@ interface SortConfig {
 }
 
 export function Dashboard() {
-  const { allProducts, deleteProduct } = useGlobalContext();
+  const { allProducts, handleModalCreate, deleteProduct } = useGlobalContext();
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "name",
@@ -66,7 +66,10 @@ export function Dashboard() {
       <h2 className="text-center text-2xl font-semibold">
         Panel Administrativo
       </h2>
-      <button className="rounded border border-black px-9 py-2 text-lg">
+      <button
+        onClick={handleModalCreate}
+        className="rounded border border-black px-9 py-2 text-lg"
+      >
         Añadir Producto
       </button>
       <div className="container mx-auto max-w-5xl px-4 py-2">

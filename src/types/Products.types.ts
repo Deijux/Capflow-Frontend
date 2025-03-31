@@ -1,4 +1,4 @@
-export interface ProductDetail {
+export interface SizeStock {
   size: string;
   stock: number;
 }
@@ -10,7 +10,7 @@ export interface Product {
   price: number;
   brand: string;
   imagesUrl: string[];
-  details: ProductDetail[];
+  details: SizeStock[];
   createdAt?: string;
   updatedAt?: string;
 }

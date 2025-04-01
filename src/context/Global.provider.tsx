@@ -1,10 +1,11 @@
 import { ReactNode, useEffect, useState } from "react";
 import { GlobalContext } from "./Global.context";
-import { UserRole } from "../types";
+import { Product, UserRole } from "../types";
 import {
   useProductsListed,
   useProductsAdmin,
   useCreateProduct,
+  useUpdateProduct,
   useDeleteProduct,
 } from "../hooks/useProducts";
 
@@ -26,12 +27,18 @@ const EmptyGlobalState: UserRole = validateUserRole(
 export const GlobalProvider = ({ children }: GlobalProps) => {
   const [role, setRole] = useState<UserRole>(EmptyGlobalState);
   const [menuStatus, setMenuStatus] = useState<boolean>(false);
-  const [modalCreateStatus, setModalStatus] = useState<boolean>(false);
+  const [modalCreateStatus, setModalCreateStatus] = useState<boolean>(false);
+  const [modalEditStatus, setModalEditStatus] = useState<boolean>(false);
+  const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const { data: productsListed } = useProductsListed();
   const { data: allProducts } = useProductsAdmin();
   const brands = productsListed ? Object.keys(productsListed) : null;
-  const { mutate: createProduct } = useCreateProduct();
-  const { mutate: deleteProduct } = useDeleteProduct();
+  const { mutate: createProduct, isSuccess: isSuccessCreate } =
+    useCreateProduct();
+  const { mutate: updateProduct, isSuccess: isSuccessUpdate } =
+    useUpdateProduct();
+  const { mutate: deleteProduct, isSuccess: isSuccessDelete } =
+    useDeleteProduct();
 
   useEffect(() => {
     const storedRole = localStorage.getItem("role") as UserRole | null;
@@ -49,8 +56,12 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
     setMenuStatus((prev) => !prev);
   };
 
-  const handleModalCreate = () => {
-    setModalStatus((prev) => !prev);
+  const handleModalCreate = (status: boolean) => {
+    setModalCreateStatus(status);
+  };
+
+  const handleModalEdit = (status: boolean) => {
+    setModalEditStatus(status);
   };
 
   return (
@@ -62,11 +73,19 @@ export const GlobalProvider = ({ children }: GlobalProps) => {
         handleChangeMenuStatus,
         modalCreateStatus,
         handleModalCreate,
+        modalEditStatus,
+        handleModalEdit,
+        productToEdit,
+        setProductToEdit,
         productsListed: productsListed || null,
         allProducts: allProducts || null,
         brands,
-        deleteProduct,
         createProduct,
+        isSuccessCreate,
+        updateProduct,
+        isSuccessUpdate,
+        deleteProduct,
+        isSuccessDelete,
       }}
     >
       {children}

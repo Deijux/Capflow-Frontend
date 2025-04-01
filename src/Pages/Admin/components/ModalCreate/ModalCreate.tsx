@@ -1,21 +1,29 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useGlobalContext } from "../../../../context/Global.context";
-import { createProduct } from "../../../../services/Products";
 import { SizeStock } from "../../../../types";
 
+const initialFormData = {
+  name: "",
+  description: "",
+  price: 0,
+  brand: "",
+};
+
+const initialSizesStock = [{ size: "", stock: 0 }];
+
 function ModalCreate() {
-  const { modalCreateStatus, handleModalCreate } = useGlobalContext();
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: 0,
-    brand: "",
-  });
+  const {
+    modalCreateStatus,
+    handleModalCreate,
+    createProduct,
+    isSuccessCreate,
+  } = useGlobalContext();
+  const [formData, setFormData] = useState(initialFormData);
   const [images, setImages] = useState<File[]>([]);
-  const [sizesStocks, setSizesStocks] = useState<SizeStock[]>([
-    { size: "", stock: 0 },
-  ]);
+  const [sizesStocks, setSizesStocks] =
+    useState<SizeStock[]>(initialSizesStock);
   const [isLoading, setIsLoading] = useState(false);
+  const [loaded, setLoaded] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (
@@ -88,6 +96,21 @@ function ModalCreate() {
     });
   };
 
+  useEffect(() => {
+    if (loaded) {
+      handleModalCreate(false);
+      setIsLoading(false);
+      setLoaded(false);
+      setFormData(initialFormData);
+      setSizesStocks(initialSizesStock);
+      setImages([]);
+    }
+  }, [handleModalCreate, loaded]);
+
+  useEffect(() => {
+    setLoaded(isSuccessCreate);
+  }, [isSuccessCreate]);
+
   if (!modalCreateStatus) return null;
 
   return (
@@ -102,7 +125,7 @@ function ModalCreate() {
             </h3>
             <button
               type="button"
-              onClick={handleModalCreate}
+              onClick={() => handleModalCreate(false)}
               className="ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
             >
               <svg
@@ -387,7 +410,7 @@ function ModalCreate() {
             </button>
             <button
               type="button"
-              onClick={handleModalCreate}
+              onClick={() => handleModalCreate(false)}
               className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
             >
               Cancelar

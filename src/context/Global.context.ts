@@ -8,10 +8,17 @@ interface GlobalContextType {
   menuStatus: boolean;
   handleChangeMenuStatus(): void;
   modalCreateStatus: boolean;
-  handleModalCreate(): void;
+  handleModalCreate(status: boolean): void;
+  modalEditStatus: boolean;
+  handleModalEdit(status: boolean): void;
+  productToEdit: Product | null;
+  setProductToEdit: (product: Product | null) => void;
   productsListed: ProductsByBrand | null;
   allProducts: Product[] | null;
   brands: string[] | null;
+  isSuccessCreate: boolean;
+  isSuccessUpdate: boolean;
+  isSuccessDelete: boolean;
   createProduct: UseMutateFunction<
     Product,
     Error,
@@ -27,6 +34,23 @@ interface GlobalContextType {
     },
     unknown
   >;
+  updateProduct: UseMutateFunction<
+    Product,
+    Error,
+    {
+      id: string;
+      product: {
+        name: string;
+        description: string;
+        price: number;
+        brand: string;
+        details: SizeStock[];
+      };
+      images: File[];
+      existingImages: string[];
+    },
+    unknown
+  >;
   deleteProduct: UseMutateFunction<void, Error, string, unknown>;
 }
 
@@ -37,10 +61,18 @@ export const GlobalContext = createContext<GlobalContextType>({
   handleChangeMenuStatus: () => {},
   modalCreateStatus: false,
   handleModalCreate: () => {},
+  modalEditStatus: false,
+  handleModalEdit: () => {},
+  productToEdit: null,
+  setProductToEdit: () => {},
   productsListed: null,
   allProducts: null,
   brands: null,
+  isSuccessCreate: false,
+  isSuccessUpdate: false,
+  isSuccessDelete: false,
   createProduct: () => {},
+  updateProduct: () => {},
   deleteProduct: () => {},
 });
 

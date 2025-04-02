@@ -10,7 +10,13 @@ interface SortConfig {
 }
 
 export function Dashboard() {
-  const { allProducts, handleModalCreate, deleteProduct } = useGlobalContext();
+  const {
+    allProducts,
+    handleModalCreate,
+    setProductToEdit,
+    handleModalEdit,
+    deleteProduct,
+  } = useGlobalContext();
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "name",
@@ -50,6 +56,11 @@ export function Dashboard() {
     return sortConfig.direction === "ascending" ? "↑" : "↓";
   };
 
+  const handleEditProduct = (product: Product) => {
+    setProductToEdit(product);
+    handleModalEdit(true);
+  };
+
   const handleDeleteProduct = (id: string) => {
     deleteProduct(id, {
       onSuccess: () => {
@@ -67,7 +78,7 @@ export function Dashboard() {
         Panel Administrativo
       </h2>
       <button
-        onClick={handleModalCreate}
+        onClick={() => handleModalCreate(true)}
         className="rounded border border-black px-9 py-2 text-lg"
       >
         Añadir Producto
@@ -121,7 +132,10 @@ export function Dashboard() {
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
-                      <button className="mr-3 text-indigo-600 hover:text-indigo-900">
+                      <button
+                        onClick={() => handleEditProduct(product)}
+                        className="mr-3 text-indigo-600 hover:text-indigo-900"
+                      >
                         Editar
                       </button>
                       <button

@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Dashboard } from "./Pages";
-import { ModalCreate } from "./components";
+import { ModalCreate, ModalEdit } from "./components";
 
 const routes = [
   {
@@ -18,6 +18,7 @@ export function AdminRoutes() {
         ))}
       </Routes>
       <ModalCreate />
+      <ModalEdit />
     </>
   );
 }

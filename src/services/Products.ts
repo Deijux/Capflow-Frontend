@@ -83,6 +83,51 @@ export const createProduct = async ({
   }
 };
 
+export const updateProduct = async (
+  id: string,
+  productData: {
+    name: string;
+    description: string;
+    price: number;
+    brand: string;
+    details: SizeStock[];
+  },
+  images: File[],
+  existingImages: string[],
+): Promise<Product> => {
+  try {
+    console.log({
+      id,
+      productData,
+      images,
+      existingImages,
+    });
+    const formData = new FormData();
+
+    formData.append(
+      "product",
+      JSON.stringify({
+        ...productData,
+        existingImages,
+      }),
+    );
+
+    images.forEach((file) => {
+      formData.append("images", file);
+    });
+
+    const response = await AdminInstance.put(`/api/products/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(`Error updating product: ${error}`);
+  }
+};
+
 export const deleteProduct = async (id: string): Promise<void> => {
   try {
     await AdminInstance.delete(`api/products/${id}`);

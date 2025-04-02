@@ -6,6 +6,7 @@ import {
   getProductById,
   getProductByBrand,
   createProduct,
+  updateProduct,
   deleteProduct,
 } from "../services";
 import { SizeStock } from "../types";
@@ -72,6 +73,30 @@ export const useCreateProduct = () => {
     },
     onError: (error: Error) => {
       console.error(error);
+    },
+  });
+};
+
+export const useUpdateProduct = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: {
+      id: string;
+      product: {
+        name: string;
+        description: string;
+        price: number;
+        brand: string;
+        details: SizeStock[];
+      };
+      images: File[];
+      existingImages: string[];
+    }) =>
+      updateProduct(data.id, data.product, data.images, data.existingImages),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      queryClient.invalidateQueries({ queryKey: ["productsListed"] });
     },
   });
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const GuestInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://capflow-backend.fly.dev",
   headers: {
     "Content-Type": "application/json",
   },

@@ -8,7 +8,7 @@ interface loginProps {
 const loginService = async ({ username, password }: loginProps) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/auth/login",
+      "https://capflow-backend.fly.dev/auth/login",
       {
         username,
         password,

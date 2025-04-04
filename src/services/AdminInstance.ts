@@ -1,7 +1,10 @@
 import axios from "axios";
 
 const AdminInstance = axios.create({
-  baseURL: "https://capflow-backend.fly.dev",
+  baseURL:
+    import.meta.env.VITE_NODE_ENV === "production"
+      ? import.meta.env.VITE_BACKEND_PROD
+      : import.meta.env.VITE_BACKEND_DEV,
   headers: {
     "Content-Type": "application/json",
   },

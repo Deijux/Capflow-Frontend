@@ -1,4 +1,4 @@
-import axios from "axios";
+import GuestInstance from "./GuestInstance";
 
 interface loginProps {
   username: string;
@@ -7,8 +7,8 @@ interface loginProps {
 
 const loginService = async ({ username, password }: loginProps) => {
   try {
-    const response = await axios.post(
-      "https://capflow-backend.fly.dev/auth/login",
+    const response = await GuestInstance.post(
+      "/auth/login",
       {
         username,
         password,

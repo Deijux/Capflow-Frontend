@@ -19,12 +19,13 @@ function ModalCreate() {
     isSuccessCreate,
   } = useGlobalContext();
   const [formData, setFormData] = useState(initialFormData);
-  const [images, setImages] = useState<File[]>([]);
+  const [imagesToAdd, setImagesToAdd] = useState<File[]>([]);
   const [sizesStocks, setSizesStocks] =
     useState<SizeStock[]>(initialSizesStock);
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -39,7 +40,85 @@ function ModalCreate() {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setImages(filesArray);
+      if (filesArray.length > 0) {
+        const newImages = Array.from(filesArray);
+        const validImages = newImages.filter((image) =>
+          ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
+        );
+
+        if (validImages.length === 0) {
+          alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
+          return;
+        }
+
+        const tooLargeImages = newImages.filter(
+          (image) => image.size > 5 * 1024 * 1024,
+        );
+
+        if (tooLargeImages.length > 0) {
+          alert("El tamaño máximo permitido es de 5 MB por imagen.");
+        }
+
+        const checkDuplicated = validImages.filter(
+          (image) => !imagesToAdd.some((img) => img.name === image.name),
+        );
+
+        if (checkDuplicated.length === 0) {
+          alert("No puedes repetir imágenes.");
+          return;
+        }
+
+        setImagesToAdd((prevImages) => [...prevImages, ...newImages]);
+      }
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    const droppedImages = e.dataTransfer.files;
+
+    if (droppedImages.length > 0) {
+      const newImages = Array.from(droppedImages);
+      const validImages = newImages.filter((image) =>
+        ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
+      );
+
+      if (validImages.length === 0) {
+        alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
+        return;
+      }
+
+      const tooLargeImages = newImages.filter(
+        (image) => image.size > 5 * 1024 * 1024,
+      );
+
+      if (tooLargeImages.length > 0) {
+        alert("El tamaño máximo permitido es de 5 MB por imagen.");
+      }
+
+      const checkDuplicated = validImages.filter(
+        (image) => !imagesToAdd.some((img) => img.name === image.name),
+      );
+
+      if (checkDuplicated.length === 0) {
+        alert("No puedes repetir imágenes.");
+        return;
+      }
+
+      setImagesToAdd((prevImages) => [...prevImages, ...newImages]);
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragging(false);
     }
   };
 
@@ -82,7 +161,7 @@ function ModalCreate() {
       return;
     }
 
-    if (images.length === 0) {
+    if (imagesToAdd.length === 0) {
       alert("Por favor, agregue al menos una imagen");
       return;
     }
@@ -92,7 +171,7 @@ function ModalCreate() {
         ...formData,
         details: sizesStocks,
       },
-      images,
+      images: imagesToAdd,
     });
   };
 
@@ -103,7 +182,7 @@ function ModalCreate() {
       setLoaded(false);
       setFormData(initialFormData);
       setSizesStocks(initialSizesStock);
-      setImages([]);
+      setImagesToAdd([]);
     }
   }, [handleModalCreate, loaded]);
 
@@ -225,7 +304,7 @@ function ModalCreate() {
                   <button
                     type="button"
                     onClick={addSizeStockField}
-                    className="ml-2 rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 hover:bg-blue-200"
+                    className="ml-2 rounded bg-blue-100 px-2 py-1 text-xs text-blue-800 transition-colors duration-200 hover:bg-blue-200"
                   >
                     + Agregar talla
                   </button>
@@ -306,7 +385,17 @@ function ModalCreate() {
                   Imágenes del producto
                 </label>
                 <div className="flex w-full items-center justify-center">
-                  <label className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100">
+                  <label
+                    onDrop={handleDrop}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    className={`flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+                      isDragging
+                        ? "border-blue-500 bg-blue-50 shadow-md"
+                        : "border-gray-300 bg-gray-50"
+                    } transition-colors duration-200 hover:bg-gray-100`}
+                  >
                     <div className="flex flex-col items-center justify-center pb-6 pt-5">
                       <svg
                         className="mb-4 h-8 w-8 text-gray-500"
@@ -344,13 +433,13 @@ function ModalCreate() {
                   </label>
                 </div>
 
-                {images.length > 0 && (
+                {imagesToAdd.length > 0 && (
                   <div className="mt-4">
                     <h4 className="mb-2 text-sm font-medium text-gray-900">
                       Imágenes seleccionadas:
                     </h4>
                     <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-                      {images.map((image, index) => (
+                      {imagesToAdd.map((image, index) => (
                         <div key={index} className="group relative">
                           <div className="truncate rounded-lg bg-gray-100 p-2 text-xs">
                             {image.name}
@@ -358,7 +447,7 @@ function ModalCreate() {
                           <button
                             type="button"
                             onClick={() => {
-                              setImages((prev) =>
+                              setImagesToAdd((prev) =>
                                 prev.filter((_, i) => i !== index),
                               );
                             }}
@@ -381,7 +470,7 @@ function ModalCreate() {
               type="submit"
               onClick={handleSubmit}
               disabled={isLoading}
-              className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isLoading ? (
                 <>
@@ -411,7 +500,7 @@ function ModalCreate() {
             <button
               type="button"
               onClick={() => handleModalCreate(false)}
-              className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300"
+              className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 transition-colors duration-200 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               Cancelar
             </button>

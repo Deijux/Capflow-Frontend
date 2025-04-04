@@ -19,13 +19,13 @@ function ModalEdit() {
   } = useGlobalContext();
 
   const [formData, setFormData] = useState(initialFormData);
-
   const [sizesStocks, setSizesStocks] = useState<SizeStock[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [imagesToAdd, setImagesToAdd] = useState<File[]>([]);
   const [imagesToRemove, setImagesToRemove] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loaded, setLoaded] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -54,7 +54,78 @@ function ModalEdit() {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const filesArray = Array.from(e.target.files);
-      setImagesToAdd(filesArray);
+      const validImages = filesArray.filter((file) =>
+        ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
+      );
+
+      const tooLargeImages = filesArray.filter(
+        (file) => file.size > 5 * 1024 * 1024,
+      );
+
+      if (tooLargeImages.length > 0) {
+        alert("El tamaño máximo permitido es de 5 MB por imagen.");
+      }
+
+      const checkDuplicated = validImages.filter(
+        (file) => !imagesToAdd.some((img) => img.name === file.name),
+      );
+
+      if (checkDuplicated.length === 0) {
+        alert("No puedes repetir imágenes.");
+        return;
+      }
+
+      setImagesToAdd((prev) => [...prev, ...checkDuplicated]);
+      e.target.value = "";
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    const droppedImages = e.dataTransfer.files;
+
+    if (droppedImages.length > 0) {
+      const newImages = Array.from(droppedImages);
+      const validImages = newImages.filter((image) =>
+        ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
+      );
+
+      if (validImages.length === 0) {
+        alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
+        return;
+      }
+
+      const tooLargeImages = newImages.filter(
+        (image) => image.size > 5 * 1024 * 1024,
+      );
+
+      if (tooLargeImages.length > 0) {
+        alert("El tamaño máximo permitido es de 5 MB por imagen.");
+      }
+
+      const checkDuplicated = validImages.filter(
+        (image) => !imagesToAdd.some((img) => img.name === image.name),
+      );
+
+      if (checkDuplicated.length === 0) {
+        alert("No puedes repetir imágenes.");
+        return;
+      }
+
+      setImagesToAdd((prev) => [...prev, ...checkDuplicated]);
+      setIsDragging(false);
+    }
+  };
+
+  const handleDragEnter = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLLabelElement>) => {
+    e.preventDefault();
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragging(false);
     }
   };
 
@@ -128,6 +199,10 @@ function ModalEdit() {
       handleModalEdit(false);
       setLoaded(false);
       setIsLoading(false);
+      setFormData(initialFormData);
+      setSizesStocks([]);
+      setImagesToAdd([]);
+      setImagesToRemove([]);
     }
   }, [handleModalEdit, loaded]);
 
@@ -356,10 +431,20 @@ function ModalEdit() {
                   Imágenes del producto
                 </label>
                 <div className="flex w-full items-center justify-center">
-                  <label className="-600 -600 -gray-500 -gray-700 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100">
+                  <label
+                    onDrop={handleDrop}
+                    onDragOver={(e) => e.preventDefault()}
+                    onDragEnter={handleDragEnter}
+                    onDragLeave={handleDragLeave}
+                    className={`flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed ${
+                      isDragging
+                        ? "border-blue-500 bg-blue-50 shadow-md"
+                        : "border-gray-300 bg-gray-50"
+                    } transition-colors duration-200 hover:bg-gray-100`}
+                  >
                     <div className="flex flex-col items-center justify-center pb-6 pt-5">
                       <svg
-                        className="-400 mb-4 h-8 w-8 text-gray-500"
+                        className="mb-4 h-8 w-8 text-gray-500"
                         aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

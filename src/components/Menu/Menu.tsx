@@ -1,10 +1,10 @@
 import { useGlobalContext } from "../../context/Global.context";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Menu() {
-  const { menuStatus } = useGlobalContext();
+  const location = useLocation();
   const navigate = useNavigate();
+  const { menuStatus } = useGlobalContext();
   const { brands, handleSetRole, role, handleChangeMenuStatus } =
     useGlobalContext();
 
@@ -37,15 +37,21 @@ function Menu() {
         </ul>
       </div>
       {role !== "ROLE_GUEST" && role !== null ? (
-        <button
-          className="inline-flex"
-          onClick={() => {
-            handleLogOut();
-            handleChangeMenuStatus();
-          }}
-        >
-          Cerrar sesión
-        </button>
+        location.pathname === "/admin/dashboard" ? (
+          <button
+            className="inline-flex"
+            onClick={() => {
+              handleLogOut();
+              handleChangeMenuStatus();
+            }}
+          >
+            Cerrar sesión
+          </button>
+        ) : (
+          <Link to="/admin/dashboard" onClick={handleChangeMenuStatus}>
+            Regresar al panel
+          </Link>
+        )
       ) : (
         <Link to="/auth/login" onClick={handleChangeMenuStatus}>
           Iniciar sesión

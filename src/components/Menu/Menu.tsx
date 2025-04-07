@@ -1,16 +1,24 @@
 import { useGlobalContext } from "../../context/Global.context";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks";
 
 function Menu() {
   const location = useLocation();
   const navigate = useNavigate();
+  const logout = useLogout();
   const { menuStatus } = useGlobalContext();
   const { brands, handleSetRole, role, handleChangeMenuStatus } =
     useGlobalContext();
 
   const handleLogOut = () => {
-    navigate("/");
-    handleSetRole("ROLE_GUEST");
+    try {
+      logout.mutateAsync();
+      handleChangeMenuStatus();
+      navigate("/");
+      handleSetRole("ROLE_GUEST");
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
+    }
   };
 
   return (

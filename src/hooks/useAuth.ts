@@ -9,6 +9,9 @@ export const useLogin = () => {
     onSuccess: (role) => {
       handleSetRole(role);
     },
+    onError: () => {
+      handleSetRole("ROLE_GUEST");
+    },
   });
 };
 

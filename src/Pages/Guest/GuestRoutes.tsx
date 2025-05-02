@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import { Home, Sections, CarShop, InfoProduct, Login } from "./Pages";
 import ProtectedRoute from "../../middlewares/ProtectedRoutes";
-import { GlobalProvider } from "../../context/Global.provider";
 import { UserRole } from "../../types";
+import { GuestProvider } from "../../context/Guest/Guest.provider";
 
 const routes = [
   {
@@ -21,7 +21,7 @@ const routes = [
 
 export function GuestRoutes() {
   return (
-    <GlobalProvider>
+    <GuestProvider>
       <Routes>
         <Route index element={<Home />} />
         {routes.map(({ path, element, allowedRoles }) =>
@@ -40,6 +40,6 @@ export function GuestRoutes() {
           ),
         )}
       </Routes>
-    </GlobalProvider>
+    </GuestProvider>
   );
 }

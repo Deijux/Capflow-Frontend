@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent, useRef } from "react";
-import { useGlobalContext } from "../../../../context/Global.context";
+import { useAdminContext } from "../../../../context/Admin/Admin.context";
 import { SizeStock } from "../../../../types";
 
 const initialFormData = {
@@ -16,7 +16,7 @@ function ModalEdit() {
     productToEdit,
     updateProduct,
     isSuccessUpdate,
-  } = useGlobalContext();
+  } = useAdminContext();
 
   const [formData, setFormData] = useState(initialFormData);
   const [sizesStocks, setSizesStocks] = useState<SizeStock[]>([]);

@@ -1,7 +1,7 @@
 import Style from "./Header.module.css";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "../../context/Global.context";
+import { useGlobalContext } from "../../context/Global/Global.context";
 import { useEffect, useState } from "react";
 
 function Header() {

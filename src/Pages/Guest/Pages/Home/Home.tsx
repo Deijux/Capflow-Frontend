@@ -1,11 +1,11 @@
 import { Card } from "../../../../components";
 import { Link } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
-import { useGlobalContext } from "../../../../context/Global.context";
+import { useGuestContext } from "../../../../context/Guest/Guest.context";
 import { Product } from "../../../../types";
 
 export function Home() {
-  const { productsListed } = useGlobalContext();
+  const { productsListed } = useGuestContext();
 
   if (!productsListed) {
     return <div>Cargando productos...</div>;

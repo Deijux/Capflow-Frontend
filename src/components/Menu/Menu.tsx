@@ -1,14 +1,15 @@
-import { useGlobalContext } from "../../context/Global.context";
+import { useGlobalContext } from "../../context/Global/Global.context";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks";
+import { useBrandStore } from "../../stores/brandStore";
 
 function Menu() {
+  const { brands } = useBrandStore();
   const location = useLocation();
   const navigate = useNavigate();
   const logout = useLogout();
   const { menuStatus } = useGlobalContext();
-  const { brands, handleSetRole, role, handleChangeMenuStatus } =
-    useGlobalContext();
+  const { handleSetRole, role, handleChangeMenuStatus } = useGlobalContext();
 
   const handleLogOut = () => {
     try {

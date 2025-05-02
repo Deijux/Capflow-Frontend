@@ -96,12 +96,6 @@ export const updateProduct = async (
   existingImages: string[],
 ): Promise<Product> => {
   try {
-    console.log({
-      id,
-      productData,
-      images,
-      existingImages,
-    });
     const formData = new FormData();
 
     formData.append(

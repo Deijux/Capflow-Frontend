@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useGlobalContext } from "../context/Global.context";
+import { useGlobalContext } from "../context/Global/Global.context";
 import { UserRole } from "../types";
 
 interface PropsProtectedRoute {

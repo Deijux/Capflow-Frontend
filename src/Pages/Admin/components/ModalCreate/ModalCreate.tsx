@@ -1,5 +1,5 @@
 import { useState, useRef, ChangeEvent, useEffect } from "react";
-import { useGlobalContext } from "../../../../context/Global.context";
+import { useAdminContext } from "../../../../context/Admin/Admin.context";
 import { SizeStock } from "../../../../types";
 
 const initialFormData = {
@@ -17,7 +17,7 @@ function ModalCreate() {
     handleModalCreate,
     createProduct,
     isSuccessCreate,
-  } = useGlobalContext();
+  } = useAdminContext();
   const [formData, setFormData] = useState(initialFormData);
   const [imagesToAdd, setImagesToAdd] = useState<File[]>([]);
   const [sizesStocks, setSizesStocks] =

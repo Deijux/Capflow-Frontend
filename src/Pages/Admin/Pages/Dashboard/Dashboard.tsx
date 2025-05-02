@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { Product } from "../../../../types";
-import { useGlobalContext } from "../../../../context/Global.context";
+import { useAdminContext } from "../../../../context/Admin/Admin.context";
 
 type SortDirection = "ascending" | "descending";
 
@@ -16,7 +16,7 @@ export function Dashboard() {
     setProductToEdit,
     handleModalEdit,
     deleteProduct,
-  } = useGlobalContext();
+  } = useAdminContext();
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({
     key: "name",

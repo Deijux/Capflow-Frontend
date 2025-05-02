@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { loginService, logoutService } from "../services/LogIn";
-import { useGlobalContext } from "../context/Global.context";
+import { useGlobalContext } from "../context/Global/Global.context";
 
 export const useLogin = () => {
   const { handleSetRole } = useGlobalContext();

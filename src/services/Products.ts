@@ -24,7 +24,7 @@ export const getProductsGuest = async (): Promise<Product[]> => {
 
 export const getProductsAdmin = async (): Promise<Product[]> => {
   try {
-    const response = await AdminInstance.get("/api/products");
+    const response = await AdminInstance.get("/api/products/admin");
     return response.data;
   } catch (error) {
     throw new Error(`Error getting admin products: ${error}`);

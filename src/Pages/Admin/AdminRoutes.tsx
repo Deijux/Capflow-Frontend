@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Dashboard } from "./Pages";
 import { ModalCreate, ModalEdit } from "./components";
-import { AdminProvider } from "../../context/Admin/Admin.provider";
+import { AdminProvider } from "../../context";
 
 const routes = [
   {

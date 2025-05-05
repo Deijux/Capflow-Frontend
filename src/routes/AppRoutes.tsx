@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Header, Menu } from "../components";
 import { AdminRoutes, GuestRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
-import { GlobalProvider } from "../context/Global/Global.provider";
+import { GlobalProvider } from "../context";
 import { UserRole } from "../types";
 
 const routes = [

@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Home, Sections, CarShop, InfoProduct, Login } from "./Pages";
 import ProtectedRoute from "../../middlewares/ProtectedRoutes";
 import { UserRole } from "../../types";
-import { GuestProvider } from "../../context/Guest/Guest.provider";
+import { GuestProvider } from "../../context";
 
 const routes = [
   {

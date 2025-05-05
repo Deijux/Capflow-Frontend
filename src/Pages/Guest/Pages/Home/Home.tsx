@@ -12,7 +12,7 @@ export function Home() {
   }
 
   return (
-    <main className="flex h-dvh w-full justify-center px-3">
+    <main className="flex min-h-dvh w-full justify-center px-3">
       <section className="w-full max-w-5xl">
         {Object.entries(productsListed).map(([brand, brandProducts]) => (
           <div className="mt-2" key={brand}>

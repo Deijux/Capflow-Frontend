@@ -4,6 +4,7 @@ import { AdminRoutes, GuestRoutes } from "../Pages";
 import ProtectedRoute from "../middlewares/ProtectedRoutes";
 import { GlobalProvider } from "../context";
 import { UserRole } from "../types";
+import { Unauthorized } from "../Pages/Guest/Pages";
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: "/admin/*",
     element: <AdminRoutes />,
     allowedRoles: ["ROLE_ADMIN"] as UserRole[],
+  },
+  {
+    path: "/unauthorized",
+    element: <Unauthorized />,
+    allowedRoles: [] as UserRole[],
   },
 ];
 

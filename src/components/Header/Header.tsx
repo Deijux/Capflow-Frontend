@@ -18,7 +18,7 @@ function Header() {
   }, [menuStatus]);
 
   return (
-    <header className="w-full p-8">
+    <header className="w-full bg-gray-100 p-8">
       <div className="fixed left-0 top-0 z-10 flex w-full content-center bg-black p-3 px-4">
         <ul className="flex w-full flex-row items-center justify-between">
           <li>

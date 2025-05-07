@@ -34,13 +34,13 @@ export function Login() {
   };
 
   return (
-    <section className="flex h-96 w-full items-center justify-center">
-      <div className="flex justify-center rounded-md border py-5 shadow-md shadow-gray-300 first:w-96">
+    <section className="flex h-[calc(100vh-64px)] w-full items-center justify-center">
+      <div className="flex w-full max-w-[30rem] justify-center rounded-md border bg-white py-10 shadow-md shadow-gray-300">
         <form
           onSubmit={onSubmit}
           className="flex w-fit flex-col items-center gap-3"
         >
-          <h2 className="text-balance text-center text-2xl font-semibold">
+          <h2 className="text-balance text-center text-3xl font-semibold">
             Administracion CapFlow
           </h2>
           <div className="flex w-full flex-col gap-1">

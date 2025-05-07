@@ -29,23 +29,25 @@ function AppRoutes() {
     <GlobalProvider>
       <BrowserRouter>
         <Header />
-        <Routes>
-          {routes.map(({ path, element, allowedRoles }) =>
-            allowedRoles.length > 0 ? (
-              <Route
-                key={path}
-                path={path}
-                element={
-                  <ProtectedRoute allowedRoles={allowedRoles}>
-                    {element}
-                  </ProtectedRoute>
-                }
-              />
-            ) : (
-              <Route key={path} path={path} element={element} />
-            ),
-          )}
-        </Routes>
+        <div className="flex min-h-[calc(100vh-64px)] flex-col bg-gray-100">
+          <Routes>
+            {routes.map(({ path, element, allowedRoles }) =>
+              allowedRoles.length > 0 ? (
+                <Route
+                  key={path}
+                  path={path}
+                  element={
+                    <ProtectedRoute allowedRoles={allowedRoles}>
+                      {element}
+                    </ProtectedRoute>
+                  }
+                />
+              ) : (
+                <Route key={path} path={path} element={element} />
+              ),
+            )}
+          </Routes>
+        </div>
         <Menu />
       </BrowserRouter>
     </GlobalProvider>

@@ -79,7 +79,7 @@ export function Dashboard() {
       </h2>
       <button
         onClick={() => handleModalCreate(true)}
-        className="rounded border border-black px-9 py-2 text-lg"
+        className="rounded border border-black bg-white px-9 py-2 text-lg"
       >
         Añadir Producto
       </button>

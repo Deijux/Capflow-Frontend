@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Return } from "../../../../components";
+import { Return, Image } from "../../../../components";
 import { useProduct } from "../../../../hooks";
 
 export function InfoProduct() {
@@ -29,11 +29,7 @@ export function InfoProduct() {
       </div>
       <div className="w-full max-w-xl lg:max-w-full">
         <div className="flex flex-col justify-center gap-4 px-6 lg:flex-row lg:gap-5 xl:gap-14">
-          <img
-            src={product.imagesUrl[0]}
-            alt={product.name}
-            className="w-auto px-3 lg:w-full lg:max-w-xl lg:p-0"
-          />
+          <Image {...product} />
           <div className="flex flex-col gap-2 lg:w-full lg:max-w-96">
             <h3 className="text-2xl font-bold">{product.name}</h3>
             <p className="text-lg">{product.description}</p>

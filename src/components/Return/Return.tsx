@@ -1,7 +1,7 @@
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-export function Return() {
+const Return = () => {
   const navigate = useNavigate();
 
   return (
@@ -19,4 +19,6 @@ export function Return() {
       Regresar
     </button>
   );
-}
+};
+
+export default Return;

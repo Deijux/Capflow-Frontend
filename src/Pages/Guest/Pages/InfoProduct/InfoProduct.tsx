@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Return } from "../../../../components/Return/Return";
+import { Return } from "../../../../components";
 import { useProduct } from "../../../../hooks";
 
 export function InfoProduct() {

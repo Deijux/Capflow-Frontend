@@ -47,6 +47,8 @@ interface AdminContextType {
   >;
   deleteProduct: UseMutateFunction<void, Error, string, unknown>;
   brands: string[] | null;
+  searchTerm: string;
+  handleSetSearchTerm: (term: string) => void;
 }
 
 export const AdminContext = createContext<AdminContextType>({
@@ -64,6 +66,8 @@ export const AdminContext = createContext<AdminContextType>({
   updateProduct: () => {},
   deleteProduct: () => {},
   brands: null,
+  searchTerm: "",
+  handleSetSearchTerm: () => {},
 });
 
 export const useAdminContext = () => {

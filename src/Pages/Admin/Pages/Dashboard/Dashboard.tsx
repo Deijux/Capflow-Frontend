@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { Product } from "../../../../types";
 import { useAdminContext } from "../../../../context/Admin/Admin.context";
+import { SearchBar } from "../../../../components";
 
 type SortDirection = "ascending" | "descending";
 
@@ -83,6 +84,7 @@ export function Dashboard() {
       >
         Añadir Producto
       </button>
+      <SearchBar />
       <div className="container mx-auto max-w-5xl px-4 py-2">
         <div className="overflow-x-auto rounded-lg bg-white shadow">
           <table className="min-w-full divide-y divide-gray-200">

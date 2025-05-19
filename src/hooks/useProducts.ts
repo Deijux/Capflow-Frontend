@@ -9,19 +9,19 @@ import {
   updateProduct,
   deleteProduct,
 } from "../services";
-import { SizeStock } from "../types";
+import { SizeStock, productParams } from "../types";
 
-export const useProducts = () => {
+export const useProducts = (params: productParams) => {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: getProductsGuest,
+    queryKey: ["products", params],
+    queryFn: () => getProductsGuest(params),
   });
 };
 
-export const useProductsAdmin = () => {
+export const useProductsAdmin = (params: productParams) => {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: getProductsAdmin,
+    queryKey: ["products", params],
+    queryFn: () => getProductsAdmin(params),
   });
 };
 

@@ -19,7 +19,10 @@ export const AdminProvider = ({ children }: GlobalProps) => {
   const [modalEditStatus, setModalEditStatus] = useState<boolean>(false);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [brandsExtracted, setBrandsExtracted] = useState<string[]>();
-  const { data: allProducts } = useProductsAdmin();
+  const [searchTerm, setSearchTerm] = useState("");
+  const { data: allProducts } = useProductsAdmin({
+    q: searchTerm,
+  });
   const { mutate: createProduct, isSuccess: isSuccessCreate } =
     useCreateProduct();
   const { mutate: updateProduct, isSuccess: isSuccessUpdate } =
@@ -50,6 +53,10 @@ export const AdminProvider = ({ children }: GlobalProps) => {
     setModalEditStatus(status);
   };
 
+  const handleSetSearchTerm = (term: string) => {
+    setSearchTerm(term);
+  };
+
   return (
     <AdminContext.Provider
       value={{
@@ -67,6 +74,8 @@ export const AdminProvider = ({ children }: GlobalProps) => {
         deleteProduct,
         isSuccessDelete,
         brands,
+        searchTerm,
+        handleSetSearchTerm,
       }}
     >
       {children}

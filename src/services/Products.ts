@@ -1,4 +1,4 @@
-import { Product, ProductsByBrand, SizeStock } from "../types";
+import { Product, ProductsByBrand, SizeStock, productParams } from "../types";
 import GuestInstance from "./GuestInstance";
 import AdminInstance from "./AdminInstance";
 
@@ -13,18 +13,22 @@ interface createProductProps {
   images: File[];
 }
 
-export const getProductsGuest = async (): Promise<Product[]> => {
+export const getProductsGuest = async (
+  params: productParams,
+): Promise<Product[]> => {
   try {
-    const response = await GuestInstance.get("/api/products");
+    const response = await GuestInstance.get("/api/products", { params });
     return response.data;
   } catch (error) {
     throw new Error(`Error getting products: ${error}`);
   }
 };
 
-export const getProductsAdmin = async (): Promise<Product[]> => {
+export const getProductsAdmin = async (
+  params: productParams,
+): Promise<Product[]> => {
   try {
-    const response = await AdminInstance.get("/api/products/admin");
+    const response = await AdminInstance.get("/api/products/admin", { params });
     return response.data;
   } catch (error) {
     throw new Error(`Error getting admin products: ${error}`);

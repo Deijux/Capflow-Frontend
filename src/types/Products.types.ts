@@ -18,3 +18,7 @@ export interface Product {
 export interface ProductsByBrand {
   [brand: string]: Product[];
 }
+
+export interface productParams {
+  q?: string;
+}

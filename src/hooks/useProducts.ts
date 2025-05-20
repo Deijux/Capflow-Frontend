@@ -9,26 +9,30 @@ import {
   updateProduct,
   deleteProduct,
 } from "../services";
-import { SizeStock, productParams } from "../types";
+import { SizeStock } from "../types";
+import { useSearchStore } from "../stores";
 
-export const useProducts = (params: productParams) => {
+export const useProducts = () => {
+  const { searchTerm: q } = useSearchStore();
   return useQuery({
-    queryKey: ["products", params],
-    queryFn: () => getProductsGuest(params),
+    queryKey: ["products", q],
+    queryFn: () => getProductsGuest({ q }),
   });
 };
 
-export const useProductsAdmin = (params: productParams) => {
+export const useProductsAdmin = () => {
+  const { searchTerm: q } = useSearchStore();
   return useQuery({
-    queryKey: ["products", params],
-    queryFn: () => getProductsAdmin(params),
+    queryKey: ["products", q],
+    queryFn: () => getProductsAdmin({ q }),
   });
 };
 
 export const useProductsListed = () => {
+  const { searchTerm: q } = useSearchStore();
   return useQuery({
-    queryKey: ["productsListed"],
-    queryFn: getProductsListed,
+    queryKey: ["productsListed", q],
+    queryFn: () => getProductsListed({ q }),
   });
 };
 

@@ -1,22 +1,22 @@
 import { useEffect, useRef } from "react";
-import { useAdminContext } from "../../context";
 import { useSearchParams } from "react-router-dom";
+import { useSearchStore } from "../../stores";
 
 const SearchBar = () => {
-  const { handleSetSearchTerm } = useAdminContext();
+  const { setSearchTerm } = useSearchStore();
   const inputRef = useRef<HTMLInputElement>(null);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const q = searchParams.get("q") || "";
     if (inputRef.current) inputRef.current.value = q;
-    handleSetSearchTerm(q);
-  }, [searchParams, handleSetSearchTerm]);
+    setSearchTerm(q);
+  }, [searchParams, setSearchTerm]);
 
   const handleSearch = () => {
     const value = inputRef.current?.value || "";
     setSearchParams({ q: value });
-    handleSetSearchTerm(value);
+    setSearchTerm(value);
   };
 
   return (

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { GuestContext } from "./Guest.context";
 import { useProductsListed } from "../../hooks/useProducts";
-import { useBrandStore } from "../../stores/brandStore";
+import { useBrandStore } from "../../stores";
 
 interface GuestProps {
   children: ReactNode;

@@ -35,9 +35,13 @@ export const getProductsAdmin = async (
   }
 };
 
-export const getProductsListed = async (): Promise<ProductsByBrand> => {
+export const getProductsListed = async (
+  params: productParams,
+): Promise<ProductsByBrand> => {
   try {
-    const response = await GuestInstance.get("/api/products/listed");
+    const response = await GuestInstance.get("/api/products/listed", {
+      params,
+    });
     return response.data;
   } catch (error) {
     throw new Error(`Error getting listed products: ${error}`);

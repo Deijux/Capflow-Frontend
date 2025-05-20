@@ -1,4 +1,4 @@
-import { Card } from "../../../../components";
+import { Card, SearchBar } from "../../../../components";
 import { Link } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { useGuestContext } from "../../../../context/Guest/Guest.context";
@@ -12,7 +12,8 @@ export function Home() {
   }
 
   return (
-    <main className="flex min-h-dvh w-full justify-center px-3">
+    <main className="mt-2 flex min-h-dvh w-full flex-col items-center gap-2 px-3">
+      <SearchBar />
       <section className="w-full max-w-5xl">
         {Object.entries(productsListed).map(([brand, brandProducts]) => (
           <div className="mt-2" key={brand}>

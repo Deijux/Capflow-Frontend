@@ -2,7 +2,7 @@ import { useCartShopStore } from "../../../../stores";
 import { Link } from "react-router-dom";
 import { CartItem } from "../../components";
 
-export function CarShop() {
+export function CartShop() {
   const { cartShop } = useCartShopStore();
   const totalItems = cartShop.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = cartShop.reduce(

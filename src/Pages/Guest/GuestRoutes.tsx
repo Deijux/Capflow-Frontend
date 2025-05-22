@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { Home, Sections, CarShop, InfoProduct, Login } from "./Pages";
+import { Home, Sections, CartShop, InfoProduct, Login } from "./Pages";
 import ProtectedRoute from "../../middlewares/ProtectedRoutes";
 import { UserRole } from "../../types";
 import { GuestProvider } from "../../context";
@@ -10,7 +10,7 @@ const routes = [
     element: <Sections />,
     allowedRoles: [] as UserRole[],
   },
-  { path: "/carrito", element: <CarShop />, allowedRoles: [] as UserRole[] },
+  { path: "/carrito", element: <CartShop />, allowedRoles: [] as UserRole[] },
   {
     path: "/producto/:id",
     element: <InfoProduct />,

@@ -22,3 +22,10 @@ export interface ProductsByBrand {
 export interface productParams {
   q?: string;
 }
+
+export interface productCartShop {
+  productId: string;
+  quantity: number;
+  price: number;
+  size: string;
+}

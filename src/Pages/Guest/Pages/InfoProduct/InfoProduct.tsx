@@ -2,9 +2,11 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Return, Image } from "../../../../components";
 import { useProduct } from "../../../../hooks";
+import { useCartShopStore } from "../../../../stores";
 
 export function InfoProduct() {
   const { id } = useParams();
+  const { cartShop, setCartShop } = useCartShopStore();
   const { data: product, isLoading } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
   const [quantityProduct, setQuantityProduct] = useState(0);
@@ -20,6 +22,37 @@ export function InfoProduct() {
           ? Math.min(prev + 1, quantityProduct) // No superar el stock disponible.
           : Math.max(prev - 1, 1), // No permitir menos de 1.
     );
+  };
+
+  const handleAddToCart = () => {
+    if (!size) {
+      alert("Por favor selecciona una talla");
+      return;
+    }
+
+    const existingProduct = cartShop.find(
+      (item) => item.productId === product._id && item.size === size,
+    );
+
+    if (quantity > quantityProduct) {
+      alert("No hay suficiente stock disponible");
+      return;
+    }
+
+    if (existingProduct) {
+      setCartShop(
+        cartShop.map((item) =>
+          item.productId === product._id && item.size === size
+            ? { ...item, quantity: item.quantity + quantity }
+            : item,
+        ),
+      );
+    } else {
+      setCartShop([
+        ...cartShop,
+        { productId: product._id, quantity, size, price: product.price },
+      ]);
+    }
   };
 
   return (
@@ -91,7 +124,10 @@ export function InfoProduct() {
               <button className="w-full rounded-md bg-black py-5 text-xl font-medium text-white">
                 Comprar Ahora
               </button>
-              <button className="w-full rounded-md border-2 border-black py-4 text-xl font-medium">
+              <button
+                className="w-full rounded-md border-2 border-black py-4 text-xl font-medium"
+                onClick={handleAddToCart}
+              >
                 Agregar al carrito
               </button>
             </div>

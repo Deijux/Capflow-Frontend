@@ -45,7 +45,7 @@ function Header() {
           </li>
           <li className="cursor-pointer">
             <Link to="/carrito">
-              <IoCartOutline size={30} color="fff" />
+              <IoCartOutline size={30} color="#fff" />
             </Link>
           </li>
         </ul>

@@ -10,7 +10,7 @@ export function InfoProduct() {
   const { data: product, isLoading } = useProduct(id);
   const [quantity, setQuantity] = useState(1);
   const [quantityProduct, setQuantityProduct] = useState(0);
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState(undefined as string | undefined);
 
   if (isLoading) return <p>Cargando...</p>;
   if (!product) return <p>Producto no encontrado</p>;
@@ -82,7 +82,9 @@ export function InfoProduct() {
                       setQuantityProduct(detail.stock);
                       setSize(detail.size);
                     }}
-                    className="w-full max-w-[72px] cursor-pointer rounded-lg border border-black py-2 text-center"
+                    className={`w-full max-w-[72px] cursor-pointer rounded-lg border border-black py-2 text-center text-lg font-semibold transition-colors duration-200 hover:bg-black hover:text-white ${
+                      detail.stock === 0 ? "opacity-50" : ""
+                    }`}
                     style={{
                       backgroundColor: size == detail.size ? "black" : "white",
                       color: size == detail.size ? "white" : "black",
@@ -96,7 +98,11 @@ export function InfoProduct() {
             <div>
               <h4 className="text-xl font-semibold">Cantidad</h4>
               <div className="flex w-full max-w-24 justify-between rounded-md border border-black px-3 py-2">
-                <button onClick={() => handleQuantityChange("decrement")}>
+                <button
+                  onClick={() => handleQuantityChange("decrement")}
+                  disabled={quantityProduct === 0}
+                  className="disabled:cursor-not-allowed disabled:opacity-50"
+                >
                   -
                 </button>
                 <select
@@ -104,7 +110,8 @@ export function InfoProduct() {
                   id="cantidadProducto"
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className="bg-transparent"
+                  className="bg-transparent disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={quantityProduct === 0}
                 >
                   {Array.from({ length: quantityProduct }, (_, i) => i + 1).map(
                     (value) => (
@@ -114,19 +121,46 @@ export function InfoProduct() {
                     ),
                   )}
                 </select>
-                <button onClick={() => handleQuantityChange("increment")}>
+                <button
+                  onClick={() => handleQuantityChange("increment")}
+                  disabled={quantityProduct === 0}
+                  className="disabled:cursor-not-allowed disabled:opacity-50"
+                >
                   +
                 </button>
               </div>
             </div>
-            <h4 className="medium">Unidades disponibles: {quantityProduct}</h4>
+            {size && (
+              <h4 className="medium">
+                {quantityProduct > 0 && size
+                  ? `Unidades disponibles: ${quantityProduct}`
+                  : `No tenemos unidades disponibles`}
+              </h4>
+            )}
+            {!size && (
+              <h4 className="medium">
+                Selecciona una talla para ver la disponibilidad
+              </h4>
+            )}
             <div className="flex flex-col gap-4">
-              <button className="w-full rounded-md bg-black py-5 text-xl font-medium text-white">
+              <button
+                className="w-full rounded-md bg-black py-5 text-xl font-medium text-white transition-colors duration-200 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: quantityProduct === 0 ? "gray" : "black",
+                }}
+                disabled={quantityProduct === 0}
+              >
                 Comprar Ahora
               </button>
               <button
-                className="w-full rounded-md border-2 border-black py-4 text-xl font-medium"
+                className="w-full rounded-md border-2 border-black py-4 text-xl font-medium transition-colors duration-200 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: quantityProduct === 0 ? "gray" : "white",
+                  color: quantityProduct === 0 ? "white" : "black",
+                  borderColor: quantityProduct === 0 ? "transparent" : "black",
+                }}
                 onClick={handleAddToCart}
+                disabled={quantityProduct === 0}
               >
                 Agregar al carrito
               </button>

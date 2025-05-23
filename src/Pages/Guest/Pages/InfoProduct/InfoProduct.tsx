@@ -30,14 +30,14 @@ export function InfoProduct() {
       return;
     }
 
-    const existingProduct = cartShop.find(
-      (item) => item.productId === product._id && item.size === size,
-    );
-
     if (quantity > quantityProduct) {
       alert("No hay suficiente stock disponible");
       return;
     }
+
+    const existingProduct = cartShop.find(
+      (item) => item.productId === product._id && item.size === size,
+    );
 
     if (existingProduct) {
       setCartShop(

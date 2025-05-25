@@ -130,7 +130,7 @@ export function Dashboard() {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm text-gray-900">
-                        ${product.price.toFixed(2)}
+                        ${product.price.toLocaleString("es-CO")}
                       </div>
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">

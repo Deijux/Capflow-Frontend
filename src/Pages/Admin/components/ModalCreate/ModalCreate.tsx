@@ -163,6 +163,7 @@ function ModalCreate() {
 
     if (imagesToAdd.length === 0) {
       alert("Por favor, agregue al menos una imagen");
+      setIsLoading(false);
       return;
     }
 
@@ -271,12 +272,16 @@ function ModalCreate() {
                     <input
                       type="number"
                       name="price"
-                      value={formData.price}
+                      value={
+                        formData.price !== 0
+                          ? formData.price.toLocaleString("es-CO")
+                          : ""
+                      }
                       onChange={handleChange}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-8 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                      placeholder="0.00"
+                      placeholder="0.001"
                       min="0"
-                      step="0.01"
+                      step="0.001"
                       required
                     />
                   </div>

@@ -22,7 +22,8 @@ export function CartShop() {
         {totalItems > 0 ? (
           <div className="flex w-full flex-col justify-center gap-1">
             <h3 className="font-bold">
-              <span className="font-semibold">Total:</span> {totalPrice} COP
+              <span className="font-semibold">Total:</span>{" "}
+              {totalPrice.toLocaleString("es-CO")} COP
             </h3>
             <button className="w-full rounded-md bg-black py-4 text-center text-white">
               Comprar ahora

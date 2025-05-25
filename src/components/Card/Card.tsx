@@ -17,7 +17,9 @@ const Card = ({ name, price, imageUrl, productId }: CardProps) => {
       />
       <div className="flex flex-col items-center gap-1">
         <h3 className="text-center text-lg font-bold leading-none">{name}</h3>
-        <p className="text-base font-semibold">${price.toLocaleString()} COP</p>
+        <p className="text-base font-semibold">
+          ${price.toLocaleString("es-CO")} COP
+        </p>
         <Link
           to={`/producto/${productId}`}
           className="rounded-md bg-black px-4 py-1 text-white"

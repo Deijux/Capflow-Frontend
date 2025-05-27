@@ -1,8 +1,8 @@
-import { Card, SearchBar } from "../../../../components";
+import { SearchBar } from "../../../../components";
 import { Link } from "react-router-dom";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { useGuestContext } from "../../../../context/Guest/Guest.context";
-import { Product } from "../../../../types";
+import { ProductList } from "../../components";
 
 export function Home() {
   const { productsListed } = useGuestContext();
@@ -27,17 +27,7 @@ export function Home() {
               <BiRightArrowAlt size={30} />
             </Link>
             <div className="w-full overflow-x-auto whitespace-nowrap">
-              <div className="inline-flex gap-4 pb-4 pl-3">
-                {brandProducts.map((product: Product) => (
-                  <Card
-                    key={product._id}
-                    name={product.name}
-                    price={product.price}
-                    imageUrl={product.imagesUrl[0]}
-                    productId={product._id}
-                  />
-                ))}
-              </div>
+              <ProductList products={brandProducts} />
             </div>
           </div>
         ))}

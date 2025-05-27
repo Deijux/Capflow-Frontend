@@ -1,13 +1,17 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { Return, Image } from "../../../../components";
-import { useProduct } from "../../../../hooks";
+import { Return, Image, Card } from "../../../../components";
+import { useProduct, useProductsByBrand } from "../../../../hooks";
 import { useCartShopStore } from "../../../../stores";
+import { BiRightArrowAlt } from "react-icons/bi";
 
 export function InfoProduct() {
   const { id } = useParams();
   const { cartShop, setCartShop } = useCartShopStore();
   const { data: product, isLoading } = useProduct(id);
+  const { data: productsRecommends, isLoading: isLoadingRecommends } =
+    useProductsByBrand(product?.brand);
+
   const [quantity, setQuantity] = useState(1);
   const [quantityProduct, setQuantityProduct] = useState(0);
   const [size, setSize] = useState(undefined as string | undefined);
@@ -56,7 +60,7 @@ export function InfoProduct() {
   };
 
   return (
-    <section className="flex flex-col items-center py-3 font-Poppins">
+    <section className="flex flex-col items-center gap-5 py-3 font-Poppins">
       <div className="w-full max-w-5xl pb-2">
         <Return />
       </div>
@@ -164,6 +168,38 @@ export function InfoProduct() {
               >
                 Agregar al carrito
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mt-2 w-full max-w-5xl">
+        <div>
+          <Link
+            to={`/section/${product.brand}`}
+            className="inline-flex items-center gap-1"
+          >
+            <h2 className="font-Poppins text-2xl font-semibold">
+              Más de {product.brand}
+            </h2>
+            <BiRightArrowAlt size={30} />
+          </Link>
+          <div className="w-full overflow-x-auto whitespace-nowrap">
+            <div className="inline-flex gap-4 pb-4 pl-3">
+              {isLoadingRecommends ? (
+                <p>Cargando productos recomendados...</p>
+              ) : (
+                (productsRecommends ?? [])
+                  .filter((p) => p._id !== product._id)
+                  .map((recommendedProduct) => (
+                    <Card
+                      key={recommendedProduct._id}
+                      name={recommendedProduct.name}
+                      price={recommendedProduct.price}
+                      imageUrl={recommendedProduct.imagesUrl[0]}
+                      productId={recommendedProduct._id}
+                    />
+                  ))
+              )}
             </div>
           </div>
         </div>

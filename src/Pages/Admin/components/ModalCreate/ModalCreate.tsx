@@ -33,7 +33,7 @@ function ModalCreate() {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseFloat(value) || 0 : value,
+      [name]: value,
     }));
   };
 
@@ -384,7 +384,6 @@ function ModalCreate() {
                   ))}
                 </div>
               </div>
-
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-900">
                   Imágenes del producto

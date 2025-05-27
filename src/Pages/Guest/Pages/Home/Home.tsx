@@ -28,12 +28,12 @@ export function Home() {
             </Link>
             <div className="w-full overflow-x-auto whitespace-nowrap">
               <div className="inline-flex gap-4 pb-4 pl-3">
-                {brandProducts.slice(0, 4).map((product: Product) => (
+                {brandProducts.map((product: Product) => (
                   <Card
                     key={product._id}
                     name={product.name}
                     price={product.price}
-                    imageUrl={product.imagesUrl[0]} // Mostramos la primera imagen
+                    imageUrl={product.imagesUrl[0]}
                     productId={product._id}
                   />
                 ))}

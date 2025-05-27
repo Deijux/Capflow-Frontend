@@ -16,14 +16,14 @@ export function Sections() {
       <div className="w-full max-w-5xl">
         <Return />
         <div>
-          <h2 className="text-3xl font-semibold">GOORIN BROS</h2>
+          <h2 className="text-3xl font-semibold">{brand}</h2>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
             {products.map((product: Product) => (
               <Card
                 key={product._id}
                 name={product.name}
                 price={product.price}
-                imageUrl={product.imagesUrl[0]} // Mostramos la primera imagen
+                imageUrl={product.imagesUrl[0]}
                 productId={product._id}
               />
             ))}

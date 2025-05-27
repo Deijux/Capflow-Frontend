@@ -17,7 +17,7 @@ export function Sections() {
         <Return />
         <div>
           <h2 className="text-3xl font-semibold">{brand}</h2>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {products.map((product: Product) => (
               <Card
                 key={product._id}

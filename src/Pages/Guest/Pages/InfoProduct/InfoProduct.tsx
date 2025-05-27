@@ -68,7 +68,7 @@ export function InfoProduct() {
             <p className="text-lg">{product.description}</p>
             <div>
               <h4 className="text-xl font-semibold">
-                $ {product.price.toLocaleString()} COP
+                $ {product.price.toLocaleString("es-CO")} COP
               </h4>
               <span className="text-slate-700">Impuesto incluido</span>
             </div>

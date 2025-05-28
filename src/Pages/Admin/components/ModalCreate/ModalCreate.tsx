@@ -1,6 +1,7 @@
 import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useAdminContext } from "../../../../context/Admin/Admin.context";
 import { SizeStock } from "../../../../types";
+import { processImagesInput } from "../../utils";
 
 const initialFormData = {
   name: "",
@@ -39,74 +40,19 @@ function ModalCreate() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      if (filesArray.length > 0) {
-        const newImages = Array.from(filesArray);
-        const validImages = newImages.filter((image) =>
-          ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
-        );
-
-        if (validImages.length === 0) {
-          alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
-          return;
-        }
-
-        const tooLargeImages = newImages.filter(
-          (image) => image.size > 5 * 1024 * 1024,
-        );
-
-        if (tooLargeImages.length > 0) {
-          alert("El tamaño máximo permitido es de 5 MB por imagen.");
-        }
-
-        const checkDuplicated = validImages.filter(
-          (image) => !imagesToAdd.some((img) => img.name === image.name),
-        );
-
-        if (checkDuplicated.length === 0) {
-          alert("No puedes repetir imágenes.");
-          return;
-        }
-
-        setImagesToAdd((prevImages) => [...prevImages, ...newImages]);
-      }
+      processImagesInput(e.target.files, imagesToAdd, (validImages) => {
+        setImagesToAdd((prevImages) => [...prevImages, ...validImages]);
+      });
     }
   };
 
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     const droppedImages = e.dataTransfer.files;
-
     if (droppedImages.length > 0) {
-      const newImages = Array.from(droppedImages);
-      const validImages = newImages.filter((image) =>
-        ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
-      );
-
-      if (validImages.length === 0) {
-        alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
-        return;
-      }
-
-      const tooLargeImages = newImages.filter(
-        (image) => image.size > 5 * 1024 * 1024,
-      );
-
-      if (tooLargeImages.length > 0) {
-        alert("El tamaño máximo permitido es de 5 MB por imagen.");
-      }
-
-      const checkDuplicated = validImages.filter(
-        (image) => !imagesToAdd.some((img) => img.name === image.name),
-      );
-
-      if (checkDuplicated.length === 0) {
-        alert("No puedes repetir imágenes.");
-        return;
-      }
-
-      setImagesToAdd((prevImages) => [...prevImages, ...newImages]);
-      setIsDragging(false);
+      processImagesInput(droppedImages, imagesToAdd, (validImages) => {
+        setImagesToAdd((prevImages) => [...prevImages, ...validImages]);
+      });
     }
   };
 

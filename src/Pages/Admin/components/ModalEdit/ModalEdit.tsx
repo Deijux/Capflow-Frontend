@@ -1,6 +1,7 @@
 import { useState, useEffect, ChangeEvent, useRef } from "react";
 import { useAdminContext } from "../../../../context/Admin/Admin.context";
 import { SizeStock } from "../../../../types";
+import { processImagesInput } from "../../utils";
 
 const initialFormData = {
   name: "",
@@ -53,30 +54,9 @@ function ModalEdit() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files);
-      const validImages = filesArray.filter((file) =>
-        ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
-      );
-
-      const tooLargeImages = filesArray.filter(
-        (file) => file.size > 5 * 1024 * 1024,
-      );
-
-      if (tooLargeImages.length > 0) {
-        alert("El tamaño máximo permitido es de 5 MB por imagen.");
-      }
-
-      const checkDuplicated = validImages.filter(
-        (file) => !imagesToAdd.some((img) => img.name === file.name),
-      );
-
-      if (checkDuplicated.length === 0) {
-        alert("No puedes repetir imágenes.");
-        return;
-      }
-
-      setImagesToAdd((prev) => [...prev, ...checkDuplicated]);
-      e.target.value = "";
+      processImagesInput(e.target.files, imagesToAdd, (validImages) => {
+        setImagesToAdd((prevImages) => [...prevImages, ...validImages]);
+      });
     }
   };
 
@@ -85,35 +65,9 @@ function ModalEdit() {
     const droppedImages = e.dataTransfer.files;
 
     if (droppedImages.length > 0) {
-      const newImages = Array.from(droppedImages);
-      const validImages = newImages.filter((image) =>
-        ["image/png", "image/jpeg", "image/jpg"].includes(image.type),
-      );
-
-      if (validImages.length === 0) {
-        alert("Por favor, sube imágenes en formato PNG, JPEG o JPG.");
-        return;
-      }
-
-      const tooLargeImages = newImages.filter(
-        (image) => image.size > 5 * 1024 * 1024,
-      );
-
-      if (tooLargeImages.length > 0) {
-        alert("El tamaño máximo permitido es de 5 MB por imagen.");
-      }
-
-      const checkDuplicated = validImages.filter(
-        (image) => !imagesToAdd.some((img) => img.name === image.name),
-      );
-
-      if (checkDuplicated.length === 0) {
-        alert("No puedes repetir imágenes.");
-        return;
-      }
-
-      setImagesToAdd((prev) => [...prev, ...checkDuplicated]);
-      setIsDragging(false);
+      processImagesInput(droppedImages, imagesToAdd, (validImages) => {
+        setImagesToAdd((prevImages) => [...prevImages, ...validImages]);
+      });
     }
   };
 

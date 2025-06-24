@@ -2,6 +2,10 @@ import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useAdminContext } from "../../../../context/Admin/Admin.context";
 import { SizeStock } from "../../../../types";
 import { processImagesInput } from "../../utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { InputForm } from "../../../../components";
+import { schema, FormValues } from "../../../../models/form.models";
 
 const initialFormData = {
   name: "",
@@ -19,7 +23,6 @@ function ModalCreate() {
     createProduct,
     isSuccessCreate,
   } = useAdminContext();
-  const [formData, setFormData] = useState(initialFormData);
   const [imagesToAdd, setImagesToAdd] = useState<File[]>([]);
   const [sizesStocks, setSizesStocks] =
     useState<SizeStock[]>(initialSizesStock);
@@ -28,15 +31,15 @@ function ModalCreate() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    mode: "onBlur",
+    defaultValues: initialFormData,
+  });
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -97,16 +100,7 @@ function ModalCreate() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    if (sizesStocks.some((item) => !item.size.trim())) {
-      alert("Por favor, complete todas las tallas");
-      setIsLoading(false);
-      return;
-    }
-
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (imagesToAdd.length === 0) {
       alert("Por favor, agregue al menos una imagen");
       setIsLoading(false);
@@ -115,8 +109,7 @@ function ModalCreate() {
 
     createProduct({
       productData: {
-        ...formData,
-        details: sizesStocks,
+        ...data,
       },
       images: imagesToAdd,
     });
@@ -127,7 +120,6 @@ function ModalCreate() {
       handleModalCreate(false);
       setIsLoading(false);
       setLoaded(false);
-      setFormData(initialFormData);
       setSizesStocks(initialSizesStock);
       setImagesToAdd([]);
     }
@@ -175,78 +167,43 @@ function ModalCreate() {
 
           {/* Modal body */}
           <div className="max-h-[calc(90vh-130px)] space-y-6 overflow-y-auto p-6">
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-900">
-                  Nombre del producto
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Ej. Goorin Bross Panther"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-900">
-                  Descripción
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  rows={4}
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Describe el producto en detalle..."
-                  required
-                />
-              </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <InputForm
+                name="name"
+                control={control}
+                label="Nombre del producto"
+                placeholder="Ej. Zapatillas deportivas"
+                type="text"
+                error={errors.name}
+              />
+              <InputForm
+                name="description"
+                control={control}
+                label="Descripción"
+                placeholder="Descripción del producto"
+                type="text"
+                error={errors.description}
+              />
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-900">
-                    Precio
-                  </label>
-                  <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <span className="text-gray-500">$</span>
-                    </div>
-                    <input
-                      type="number"
-                      name="price"
-                      value={
-                        formData.price !== 0
-                          ? formData.price.toLocaleString("es-CO")
-                          : ""
-                      }
-                      onChange={handleChange}
-                      className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-8 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                      placeholder="0.001"
-                      min="0"
-                      step="0.001"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-900">
-                    Marca
-                  </label>
-                  <input
-                    type="text"
-                    name="brand"
-                    value={formData.brand}
-                    onChange={handleChange}
-                    className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Ej. Nike, Adidas, etc."
-                    required
-                  />
-                </div>
+                <InputForm
+                  name="price"
+                  control={control}
+                  label="Precio"
+                  placeholder="Ej. 59.99"
+                  type="number"
+                  error={errors.price}
+                  step="0.001"
+                  min="0"
+                />
+                <InputForm
+                  name="brand"
+                  control={control}
+                  label="Marca"
+                  placeholder="Ej. Nike, Adidas"
+                  type="text"
+                  error={errors.brand}
+                />
               </div>
 
               <div>
@@ -418,7 +375,7 @@ function ModalCreate() {
           <div className="sticky bottom-0 flex items-center space-x-2 rounded-b border-t border-gray-200 bg-white p-6">
             <button
               type="submit"
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
               disabled={isLoading}
               className="rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white transition-colors duration-200 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 disabled:cursor-not-allowed disabled:opacity-50"
             >

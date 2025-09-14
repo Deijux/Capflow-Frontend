@@ -41,8 +41,7 @@ const CartItem = ({ productId, size, quantity }: CartItemProps) => {
           </p>
           <p>
             <span className="font-semibold">Precio:</span> $
-            {quantity *
-              parseFloat(product?.price.toLocaleString("es-CO") || "0")}{" "}
+            {(quantity * (product?.price ?? 0)).toLocaleString("es-CO")} {" "}
             COP
           </p>
           <p className={`${isProductInStock ? "font-black" : "text-red-700"}`}>

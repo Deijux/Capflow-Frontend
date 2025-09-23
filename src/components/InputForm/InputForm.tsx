@@ -73,9 +73,13 @@ const InputForm = ({
             type={type}
             placeholder={placeholder}
             value={
-              type === "number" && value !== undefined
-                ? value.toString()
-                : value || ""
+              Array.isArray(field.value)
+                ? JSON.stringify(field.value)
+                : type === "number"
+                  ? field.value !== undefined
+                    ? field.value
+                    : ""
+                  : field.value || ""
             }
             onChange={(e) => {
               if (type === "number") {

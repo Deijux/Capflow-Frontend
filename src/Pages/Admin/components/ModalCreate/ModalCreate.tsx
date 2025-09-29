@@ -110,6 +110,7 @@ function ModalCreate() {
     createProduct({
       productData: {
         ...data,
+        details: sizesStocks,
       },
       images: imagesToAdd,
     });

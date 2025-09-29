@@ -40,13 +40,13 @@ export function InfoProduct() {
     }
 
     const existingProduct = cartShop.find(
-      (item) => item.productId === product._id && item.size === size,
+      (item) => item.productId === product.id && item.size === size,
     );
 
     if (existingProduct) {
       setCartShop(
         cartShop.map((item) =>
-          item.productId === product._id && item.size === size
+          item.productId === product.id && item.size === size
             ? { ...item, quantity: item.quantity + quantity }
             : item,
         ),
@@ -54,7 +54,7 @@ export function InfoProduct() {
     } else {
       setCartShop([
         ...cartShop,
-        { productId: product._id, quantity, size, price: product.price },
+        { productId: product.id, quantity, size, price: product.price },
       ]);
     }
   };
@@ -189,14 +189,14 @@ export function InfoProduct() {
                 <p>Cargando productos recomendados...</p>
               ) : (
                 (productsRecommends ?? [])
-                  .filter((p) => p._id !== product._id)
+                  .filter((p) => p.id !== product.id)
                   .map((recommendedProduct) => (
                     <Card
-                      key={recommendedProduct._id}
+                      key={recommendedProduct.id}
                       name={recommendedProduct.name}
                       price={recommendedProduct.price}
                       imageUrl={recommendedProduct.imagesUrl[0]}
-                      productId={recommendedProduct._id}
+                      productId={recommendedProduct.id}
                     />
                   ))
               )}

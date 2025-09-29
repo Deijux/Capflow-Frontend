@@ -23,7 +23,6 @@ function ModalEdit() {
     isSuccessUpdate,
   } = useAdminContext();
 
-  const [formData, setFormData] = useState(initialFormData);
   const [sizesStocks, setSizesStocks] = useState<SizeStock[]>([]);
   const [existingImages, setExistingImages] = useState<string[]>([]);
   const [imagesToAdd, setImagesToAdd] = useState<File[]>([]);
@@ -37,6 +36,7 @@ function ModalEdit() {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onBlur",
@@ -45,16 +45,16 @@ function ModalEdit() {
 
   useEffect(() => {
     if (productToEdit) {
-      setFormData({
+      reset({
         name: productToEdit.name,
         description: productToEdit.description,
-        price: productToEdit.price,
+        price: Number(productToEdit.price),
         brand: productToEdit.brand,
       });
       setSizesStocks(productToEdit.details);
       setExistingImages(productToEdit.imagesUrl);
     }
-  }, [productToEdit]);
+  }, [productToEdit, reset]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -121,25 +121,25 @@ function ModalEdit() {
     setSizesStocks(updatedSizesStocks);
   };
 
-  const onSubmit: SubmitHandler<FormValues> = async () => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     if (!productToEdit) {
       return;
     }
 
-    if (imagesToAdd.length === 0) {
+    if (imagesToAdd.length === 0 && existingImages.length === 0) {
       alert("Por favor, agregue al menos una imagen");
       setIsLoading(false);
       return;
     }
 
     updateProduct({
-      id: productToEdit._id,
+      id: productToEdit.id,
       product: {
-        ...formData,
+        ...data,
         details: sizesStocks,
       },
       images: imagesToAdd,
-      existingImages: existingImages,
+      existingImages,
     });
   };
 
@@ -148,7 +148,6 @@ function ModalEdit() {
       handleModalEdit(false);
       setLoaded(false);
       setIsLoading(false);
-      setFormData(initialFormData);
       setSizesStocks([]);
       setImagesToAdd([]);
       setImagesToRemove([]);
@@ -204,7 +203,6 @@ function ModalEdit() {
                 label="Nombre del producto"
                 placeholder="Ej. Zapatillas deportivas"
                 type="text"
-                value={formData.name}
                 error={errors.name}
               />
               <InputForm
@@ -213,7 +211,6 @@ function ModalEdit() {
                 label="Descripción"
                 placeholder="Describe el producto en detalle..."
                 type="textarea"
-                value={formData.description}
                 error={errors.description}
               />
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -223,7 +220,6 @@ function ModalEdit() {
                   label="Precio"
                   placeholder="Ej. 59.99"
                   type="number"
-                  value={formData.price}
                   error={errors.price}
                   step="0.001"
                   min="0"
@@ -235,7 +231,6 @@ function ModalEdit() {
                   label="Marca"
                   placeholder="Ej. Nike, Adidas, etc."
                   type="text"
-                  value={formData.brand}
                   error={errors.brand}
                 />
               </div>

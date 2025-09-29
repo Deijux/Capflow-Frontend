@@ -22,7 +22,7 @@ const CartItem = ({ productId, size, quantity }: CartItemProps) => {
   return (
     <div className="flex w-full max-w-96 flex-col items-center gap-3 rounded-lg border border-black bg-white p-3">
       <Link
-        to={`/producto/${product?._id}`}
+        to={`/producto/${product?.id}`}
         key={productId}
         className="flex w-full max-w-96 flex-row items-center justify-center gap-6"
       >

@@ -20,11 +20,11 @@ export function Sections() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
             {products.map((product: Product) => (
               <Card
-                key={product._id}
+                key={product.id}
                 name={product.name}
                 price={product.price}
                 imageUrl={product.imagesUrl[0]}
-                productId={product._id}
+                productId={product.id}
               />
             ))}
           </div>

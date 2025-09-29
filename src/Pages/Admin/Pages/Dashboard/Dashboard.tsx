@@ -117,7 +117,7 @@ export function Dashboard() {
             <tbody className="divide-y divide-gray-200 bg-white">
               {allProducts &&
                 sortedProducts.map((product) => (
-                  <tr key={product._id} className="hover:bg-gray-50">
+                  <tr key={product.id} className="hover:bg-gray-50">
                     <td className="whitespace-nowrap px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">
                         {product.name}
@@ -142,7 +142,7 @@ export function Dashboard() {
                       </button>
                       <button
                         className="text-red-600 hover:text-red-900"
-                        onClick={() => handleDeleteProduct(product._id)}
+                        onClick={() => handleDeleteProduct(product.id)}
                       >
                         Eliminar
                       </button>

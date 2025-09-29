@@ -18,7 +18,6 @@ const InputForm = ({
   label,
   type,
   placeholder,
-  value,
   control,
   error,
   step,
@@ -41,7 +40,6 @@ const InputForm = ({
               {...field}
               id={name}
               placeholder={placeholder}
-              value={value}
               rows={4}
               className={`block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 ${
                 error ? "border-red-500" : ""
@@ -64,6 +62,7 @@ const InputForm = ({
       <Controller
         name={name}
         control={control}
+        {...(type === "number" ? { valueAsNumber: true } : {})}
         render={({ field }) => (
           <input
             {...field}
@@ -72,20 +71,12 @@ const InputForm = ({
             min={type === "number" ? min : undefined}
             type={type}
             placeholder={placeholder}
-            value={
-              Array.isArray(field.value)
-                ? JSON.stringify(field.value)
-                : type === "number"
-                  ? field.value !== undefined
-                    ? field.value
-                    : ""
-                  : field.value || ""
-            }
+            value={field.value ?? ""}
             onChange={(e) => {
               if (type === "number") {
-                const numValue =
-                  e.target.value === "" ? undefined : Number(e.target.value);
-                field.onChange(numValue);
+                field.onChange(
+                  e.target.value === "" ? undefined : Number(e.target.value)
+                );
               } else {
                 field.onChange(e.target.value);
               }

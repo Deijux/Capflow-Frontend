@@ -17,7 +17,7 @@ export const getProductsGuest = async (
   params: productParams,
 ): Promise<Product[]> => {
   try {
-    const response = await GuestInstance.get("/api/products", { params });
+    const response = await GuestInstance.get("/products", { params });
     return response.data;
   } catch (error) {
     throw new Error(`Error getting products: ${error}`);
@@ -28,7 +28,7 @@ export const getProductsAdmin = async (
   params: productParams,
 ): Promise<Product[]> => {
   try {
-    const response = await AdminInstance.get("/api/products/admin", { params });
+    const response = await AdminInstance.get("/products/admin", { params });
     return response.data;
   } catch (error) {
     throw new Error(`Error getting admin products: ${error}`);
@@ -39,7 +39,7 @@ export const getProductsListed = async (
   params: productParams,
 ): Promise<ProductsByBrand> => {
   try {
-    const response = await GuestInstance.get("/api/products/listed", {
+    const response = await GuestInstance.get("/products/listed", {
       params,
     });
     return response.data;
@@ -52,7 +52,7 @@ export const getProductById = async (
   id: string | undefined,
 ): Promise<Product> => {
   try {
-    const response = await GuestInstance.get(`api/products/${id}`);
+    const response = await GuestInstance.get(`/products/${id}`);
     return response.data;
   } catch (error) {
     throw new Error(`Error getting product by ID: ${error}`);
@@ -63,7 +63,7 @@ export const getProductByBrand = async (
   brand: string | undefined,
 ): Promise<Product[]> => {
   try {
-    const response = await GuestInstance.get(`api/products/brand/${brand}`);
+    const response = await GuestInstance.get(`/products/brand/${brand}`);
     return response.data;
   } catch (error) {
     throw new Error(`Error getting products by brand: ${error}`);
@@ -80,7 +80,7 @@ export const createProduct = async ({
     images.forEach((file) => {
       formData.append("images", file);
     });
-    const response = await AdminInstance.post("/api/products", formData, {
+    const response = await AdminInstance.post("/products", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

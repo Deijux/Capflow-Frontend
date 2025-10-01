@@ -118,7 +118,7 @@ export const updateProduct = async (
       formData.append("images", file);
     });
 
-    const response = await AdminInstance.put(`/api/products/${id}`, formData, {
+    const response = await AdminInstance.put(`/products/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -132,7 +132,7 @@ export const updateProduct = async (
 
 export const deleteProduct = async (id: string): Promise<void> => {
   try {
-    await AdminInstance.delete(`api/products/${id}`);
+    await AdminInstance.delete(`/products/${id}`);
   } catch (error) {
     throw new Error(`Error deleting product: ${error}`);
   }
